@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import contactDoodle from '../../assets/fox charcter left to dsd logos.png';
 
 export function ServiceContactForm({ serviceName, pricing = [] }) {
   const [formData, setFormData] = useState({
@@ -27,19 +28,28 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10">
-      <div className="mb-6">
-        <h3 
-          className="text-2xl md:text-3xl text-[#0B0B0F] mb-2"
-          style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-        >
-          Everybody Plays
-        </h3>
-        <p 
-          className="text-base md:text-lg text-[#0B0B0F]"
-          style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
-        >
-          Experience gaming at the highest level
-        </p>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <h3 
+            className="text-2xl md:text-3xl text-[#0B0B0F] mb-2"
+            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+          >
+            Everybody Plays
+          </h3>
+          <p 
+            className="text-base md:text-lg text-[#0B0B0F]"
+            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+          >
+            Experience gaming at the highest level
+          </p>
+        </div>
+
+        <img
+          src={contactDoodle}
+          alt="Contact doodle"
+          className="w-20 h-20 md:w-28 md:h-28 object-contain"
+          aria-hidden="false"
+        />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">

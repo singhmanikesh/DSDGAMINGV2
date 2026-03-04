@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import foxDoodle from '../../assets/fox charcter left to dsd logo.png';
+import foxDoodle from '../../assets/fox charcter left to dsd logos.png';
 
 export function ContactSection() {
   const [formData, setFormData] = useState({

@@ -42,8 +42,8 @@ export function Navbar() {
         <div className="flex items-center justify-between h-[82px] md:h-[95px] px-4">
           {/* Logo */}
           <div className="flex items-center gap-0">
-            <img src={foxCharacter} alt="DSD Character" className="h-[70px] md:h-[94px] w-[75px] md:w-[100px] object-contain" />
-            <img src={dsdLogo} alt="DSD Premium Logo" className="h-[100px] md:h-[120px] w-auto object-contain -ml-4 md:-ml-6" />
+            {/* <img src={foxCharacter} alt="DSD Character" className="h-[70px] md:h-[140px] w-[120px] md:w-[140px] object-contain" /> */}
+            <img src={dsdLogo} alt="DSD Premium Logo" className="h-[100px] md:h-[150px] w-auto object-contain -ml-4 md:ml-5" />
           </div>
 
           {/* Mobile Menu Button */}

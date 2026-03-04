@@ -136,10 +136,10 @@ export function Hero() {
           <div className="space-y-6 sm:space-y-8 text-center lg:text-left" style={{ transform: isDesktop ? 'translateX(-20%)' : 'translateX(0)' }}>
             <div className="space-y-3 sm:space-y-4">
               <h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white"
+                style={{ fontFamily: 'Russo One, sans-serif', fontWeight: 800 }}
               >
-                Experience Gaming at the Next Level
+                Experience <span className="text-[#7C3AED]">Gaming</span> at the Next Level
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl text-[#A0A0A0] font-medium" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
