@@ -8,6 +8,9 @@ import { SchoolsPage } from './pages/schools-page.jsx';
 import { SpaceRentalPage } from './pages/space-rental-page.jsx';
 import { StreamingPage } from './pages/streaming-page.jsx';
 import { BoardGamesPage } from './pages/board-games-page.jsx';
+import { NotFoundPage } from './pages/not-found.jsx';
+import { TournamentLoginPage } from './pages/tournament-login.jsx';
+import { ProfilePage } from './pages/profile-page.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +20,14 @@ export const router = createBrowserRouter([
   {
     path: "/tournaments",
     element: <TournamentsPage />,
+  },
+  {
+    path: "/tournament/login",
+    element: <TournamentLoginPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
   },
   {
     path: "/my-tournaments",
@@ -45,5 +56,9 @@ export const router = createBrowserRouter([
   {
     path: "/board-games",
     element: <BoardGamesPage />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
