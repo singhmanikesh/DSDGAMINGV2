@@ -121,7 +121,7 @@ export function Hero() {
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%230B0B0F'/%3E%3C/svg%3E"
         >
           <source
-            src="https://res.cloudinary.com/dlzzdud8k/video/upload/v1772428363/GIF_Creation_Request_Fulfilled_vb88o4.mp4"
+            src="https://res.cloudinary.com/dlzzdud8k/video/upload/v1772683633/Character_GIF_for_Website_Hero_Section_xt7e8o.mp4"
             type="video/mp4"
           />
         </video>
