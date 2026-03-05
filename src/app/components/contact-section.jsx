@@ -9,6 +9,7 @@ export function ContactSection() {
     message: '',
     consent: false,
   });
+  // just comment
 
   const handleSubmit = (e) => {
     e.preventDefault();
