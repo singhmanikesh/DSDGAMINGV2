@@ -82,7 +82,7 @@ export function ElsaChatbot() {
       {/* Floating Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-black border-2 border-[#FF4D00] shadow-[0_0_30px_rgba(255,77,0,0.6)] hover:shadow-[0_0_40px_rgba(255,77,0,0.8)] transition-all duration-300 hover:scale-110 ${
+        className={`fixed bottom-24 sm:bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-black border-2 border-[#FF4D00] shadow-[0_0_30px_rgba(255,77,0,0.6)] hover:shadow-[0_0_40px_rgba(255,77,0,0.8)] transition-all duration-300 hover:scale-110 ${
           isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
         }`}
         aria-label="Open chat with Elsa"
@@ -98,7 +98,7 @@ export function ElsaChatbot() {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-6 right-6 z-50 w-[90vw] max-w-[360px] transition-all duration-300 ${
+        className={`fixed bottom-24 sm:bottom-6 right-6 z-50 w-[90vw] max-w-[360px] transition-all duration-300 ${
           isOpen
             ? 'scale-100 opacity-100 translate-y-0'
             : 'scale-95 opacity-0 translate-y-4 pointer-events-none'

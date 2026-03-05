@@ -3,7 +3,7 @@ import dsdReceptionImage from '../../assets/dsd image for about section.jpg';
 
 export function AboutUs() {
   return (
-    <section id="about" className="py-12 md:py-16 bg-white md:bg-[#F7FBFF]">
+    <section id="about" className="py-12 md:py-16 bg-[#F5F5F5]">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         {/* OUR STATS Section */}
         <div className="text-center mb-8 md:mb-12">
