@@ -19,7 +19,7 @@ export function Offers() {
         <img 
           src={bootcampImage} 
           alt="Bootcamp" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.1) contrast(1.1)' }}
         />
       ),
@@ -32,7 +32,7 @@ export function Offers() {
         <img 
           src={birthdayImage} 
           alt="Birthday" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
@@ -45,7 +45,7 @@ export function Offers() {
         <img 
           src={schoolImage} 
           alt="For Schools" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.0) contrast(1.05)' }}
         />
       ),
@@ -58,7 +58,7 @@ export function Offers() {
         <img 
           src={spaceRentalImage} 
           alt="Space Rental" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.0) contrast(1.05)' }}
         />
       ),
@@ -71,7 +71,7 @@ export function Offers() {
         <img 
           src={streamingImage} 
           alt="Streaming" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
@@ -84,7 +84,7 @@ export function Offers() {
         <img 
           src={boardGamesImage} 
           alt="Board Games" 
-          className="w-[252px] h-[198px] object-contain"
+          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
@@ -103,19 +103,19 @@ export function Offers() {
         </h2>
 
         {/* Grid of Occasions */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-[1434px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-[1434px] mx-auto">
           {occasions.map((occasion) => (
             <div
               key={occasion.id}
               onClick={() => navigate(occasion.path)}
-              className="flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 rounded-2xl transition-all duration-300 hover:bg-[#FFD700] hover:shadow-lg group cursor-pointer"
+              className="flex flex-col items-center justify-center p-6 sm:p-5 md:p-6 rounded-2xl transition-all duration-300 hover:bg-[#FFD700] hover:shadow-lg group cursor-pointer"
             >
               {/* Illustration */}
-              <div className="mb-3">{occasion.illustration}</div>
+              <div className="mb-4">{occasion.illustration}</div>
 
               {/* Title */}
               <h3
-                className="text-xs sm:text-sm md:text-base text-center text-[#0B0B0F] leading-tight"
+                className="text-lg sm:text-sm md:text-base text-center text-[#0B0B0F] leading-tight"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
                 {occasion.title}
