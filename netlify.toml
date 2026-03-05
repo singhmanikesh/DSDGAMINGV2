@@ -8,3 +8,9 @@
 # Optional: cache node modules between builds
 [cache]
   paths = ["node_modules"]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
