@@ -157,6 +157,30 @@ export function Pricing() {
                     </p>
                   </div>
                 </div>
+                
+                <div className="flex items-start gap-3">
+                  <Gamepad2 className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <p className="text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      4070 Super GPUs
+                    </p>
+                    <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      NVIDIA RTX 4070 Super cards across PCs
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Clock className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <p className="text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Minimum FPS
+                    </p>
+                    <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      CS2: 700fps · Valorant: 800fps
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Features */}
@@ -241,6 +265,30 @@ export function Pricing() {
                     </p>
                   </div>
                 </div>
+                
+                <div className="flex items-start gap-3">
+                  <Gamepad2 className="text-cyan-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <p className="text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      4070 Super GPUs
+                    </p>
+                    <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      NVIDIA RTX 4070 Super cards across Chill Lounge PCs
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Clock className="text-cyan-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <p className="text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Minimum FPS
+                    </p>
+                    <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      CS2: 500fps · Valorant: 700fps
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Features */}
@@ -314,8 +362,8 @@ export function Pricing() {
                       {launchPromoEsports.map((row, idx) => (
                         <tr key={idx} className="border-b border-gray-200">
                           <td className="p-3 text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</td>
-                          <td className="p-3 text-center text-[#666666] line-through text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</td>
-                          <td className="p-3 text-center text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo}</td>
+                          <td className="p-3 text-center text-[#666666] line-through text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</td>
+                          <td className="p-3 text-center text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</td>
                           <td className="p-3 text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle || '-'}</td>
                         </tr>
                       ))}
@@ -336,7 +384,7 @@ export function Pricing() {
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>13th March Only</p>
+                  <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>20th March Only</p>
                 </div>
                 
                 <div className="space-y-3">
@@ -347,8 +395,8 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
-                        <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo}</p>
+                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
+                        <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
                       </div>
                     </div>
                   ))}
@@ -364,7 +412,7 @@ export function Pricing() {
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>14th & 15th March</p>
+                  <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>21st & 22nd March</p>
                 </div>
                 
                 <div className="space-y-3">
@@ -375,8 +423,8 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
-                        <p className="text-blue-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo}</p>
+                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
+                        <p className="text-blue-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
                       </div>
                     </div>
                   ))}
@@ -411,7 +459,7 @@ export function Pricing() {
               DIRECT WALK-IN <span className="text-[#FF4D00]">OFFERS</span>
             </h3>
             <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
-              Special pricing for immediate bookings (35% OFF PC Gamepasses)
+              Special pricing for immediate bookings (35% OFF PC Gamepasses) — <strong className="font-bold">Valid 20/03/26</strong>
             </p>
           </div>
 
@@ -488,6 +536,120 @@ export function Pricing() {
         </div>
 
         {/* CHILL LOUNGE SPECIAL PACKAGES */}
+
+        {/* ESPORTS LOUNGE PACKAGES (matches Chill layout, red/black theme) */}
+        <div className="mb-8 max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-black px-6 py-3 rounded-full mb-4">
+              <Zap className="text-white" size={20} />
+              <h3
+                className="text-2xl sm:text-3xl md:text-3xl text-white uppercase"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+              >
+                ESPORTS LOUNGE PACKAGES
+              </h3>
+            </div>
+            <p className="text-red-600 text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+              Premium bootcamp packages for competitive gamers
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {/* Day Esports Package */}
+            <div className="relative bg-white rounded-2xl border-2 border-red-600/30 p-6 overflow-hidden group hover:border-red-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-black opacity-5 group-hover:opacity-10 transition-opacity"></div>
+              <div className="relative z-10">
+                <div className="mb-4">
+                  <h4
+                    className="text-xl md:text-2xl text-[#0B0B0F] uppercase mb-1"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+                  >
+                    DAY ESPORTS
+                  </h4>
+                  <p className="text-red-600 text-xs uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+                    Perfect for focused competitive play
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <span className="text-3xl md:text-4xl text-red-600 font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Rs. 800
+                    <span className="text-lg">/person</span>
+                  </span>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      8 Hours of PC Gaming
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      1 Starter of your choice 
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      1 Soda of choice
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Noodles included
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* LAN Esports Package */}
+            <div className="relative bg-white rounded-2xl border-2 border-red-600/30 p-6 overflow-hidden group hover:border-red-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-black to-red-600 opacity-5 group-hover:opacity-10 transition-opacity"></div>
+              <div className="relative z-10">
+                <div className="mb-4">
+                  <h4
+                    className="text-xl md:text-2xl text-[#0B0B0F] uppercase mb-1"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+                  >
+                    LAN ESPORTS
+                  </h4>
+                  <p className="text-red-600 text-xs uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+                    Group gaming special
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <span className="text-3xl md:text-4xl text-red-600 font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Rs. 130
+                    <span className="text-lg">/person</span>
+                  </span>
+                </div>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Come as 5, Pay for 4 (1 Hour PC/Person)
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      2+ Hours: Get 1 Soda of choice each
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="text-red-600 flex-shrink-0 mt-0.5" size={18} strokeWidth={3} />
+                    <span className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      5+ Hours: Starter + Soda each
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="mb-16 md:mb-20">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-600 px-6 py-3 rounded-full mb-4">
@@ -523,6 +685,7 @@ export function Pricing() {
                 <div className="mb-4">
                   <span className="text-3xl md:text-4xl text-cyan-600 font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Rs. 640
+                    <span className="text-lg">/person</span>
                   </span>
                 </div>
                 <ul className="space-y-2">
