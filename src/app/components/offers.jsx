@@ -19,7 +19,7 @@ export function Offers() {
         <img 
           src={bootcampImage} 
           alt="Bootcamp" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.1) contrast(1.1)' }}
         />
       ),
@@ -32,7 +32,7 @@ export function Offers() {
         <img 
           src={birthdayImage} 
           alt="Birthday" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
@@ -45,7 +45,7 @@ export function Offers() {
         <img 
           src={schoolImage} 
           alt="For Schools" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.0) contrast(1.05)' }}
         />
       ),
@@ -58,7 +58,7 @@ export function Offers() {
         <img 
           src={spaceRentalImage} 
           alt="Space Rental" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.0) contrast(1.05)' }}
         />
       ),
@@ -71,7 +71,7 @@ export function Offers() {
         <img 
           src={streamingImage} 
           alt="Streaming" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
@@ -84,7 +84,7 @@ export function Offers() {
         <img 
           src={boardGamesImage} 
           alt="Board Games" 
-          className="w-full max-w-[360px] h-auto object-contain sm:w-[252px] sm:h-[198px]"
+          className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
       ),
