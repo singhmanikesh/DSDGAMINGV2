@@ -65,6 +65,27 @@ export function Navbar() {
             >
               Home
             </a>
+            <a
+              href="/under-construction"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+            >
+              DSD BOUNTY BOARD
+            </a>
+            <a
+              href="/under-construction"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+            >
+              LEGENDS
+            </a>
+            <a
+              href="/under-construction"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+            >
+              DSD POINTS SHOP
+            </a>
             <div className="relative">
               <button
                 onClick={() => setOffersDropdownOpen(!offersDropdownOpen)}
@@ -173,6 +194,30 @@ export function Navbar() {
                   </div>
                 )}
               </div>
+              <a
+                href="/under-construction"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+              >
+                DSD BOUNTY BOARD
+              </a>
+              <a
+                href="/under-construction"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+              >
+                LEGENDS
+              </a>
+              <a
+                href="/under-construction"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
+              >
+                DSD POINTS SHOP
+              </a>
               <Link
                 to="/tournaments"
                 onClick={() => setMobileMenuOpen(false)}

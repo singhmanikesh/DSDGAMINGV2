@@ -9,6 +9,7 @@ import { SpaceRentalPage } from './pages/space-rental-page.jsx';
 import { StreamingPage } from './pages/streaming-page.jsx';
 import { BoardGamesPage } from './pages/board-games-page.jsx';
 import { NotFoundPage } from './pages/not-found.jsx';
+import { UnderConstructionPage } from './pages/under-construction.jsx';
 import { TournamentLoginPage } from './pages/tournament-login.jsx';
 import { ProfilePage } from './pages/profile-page.jsx';
 
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
   {
     path: "/board-games",
     element: <BoardGamesPage />,
+  },
+  {
+    path: "/under-construction",
+    element: <UnderConstructionPage />,
   },
   {
     path: "*",
