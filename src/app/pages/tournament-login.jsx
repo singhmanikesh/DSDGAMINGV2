@@ -15,6 +15,7 @@ export function TournamentLoginPage() {
   const [form, setForm] = useState({
     gamerName: '',
     steamId: '',
+    riotId: '',
     email: '',
     password: '',
     avatarDataUrl: '',
@@ -66,6 +67,8 @@ export function TournamentLoginPage() {
       const user = {
         gamerName: form.gamerName || '',
         steamId: form.steamId || '',
+          riotId: form.riotId || '',
+          hp: 100,
         email: form.email,
         password: form.password,
         avatar: form.avatarDataUrl || null,
@@ -122,6 +125,13 @@ export function TournamentLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {isRegister ? (
               <>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-300 mb-2">Email <span className="text-xs text-red-400">(required)</span></label>
+                    <input name="email" value={form.email} onChange={handleChange} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm text-gray-300 mb-2">Gamer Name <span className="text-xs text-red-400">(required)</span></label>
@@ -129,15 +139,15 @@ export function TournamentLoginPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm text-gray-300 mb-2">Steam ID <span className="text-xs text-gray-400">(optional)</span></label>
+                    <label className="block text-sm text-gray-300 mb-2">Steam ID</label>
                     <input name="steamId" value={form.steamId} onChange={handleChange} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm text-gray-300 mb-2">Email <span className="text-xs text-red-400">(required)</span></label>
-                    <input name="email" value={form.email} onChange={handleChange} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                    <label className="block text-sm text-gray-300 mb-2">Riot ID</label>
+                    <input name="riotId" value={form.riotId} onChange={handleChange} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
                   </div>
 
                   <div>
@@ -184,7 +194,7 @@ export function TournamentLoginPage() {
 
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <button type="submit" className="w-full sm:w-auto bg-[#FF4D00] text-white px-6 py-3 rounded-full font-bold">{isRegister ? 'Register' : 'Login'}</button>
-              <button type="button" onClick={() => { setForm({ gamerName: '', steamId: '', email: '', password: '', avatarDataUrl: '', tags: [], pastTournaments: [] }); }} className="w-full sm:w-auto px-4 py-2 border border-gray-700 rounded-full">Reset</button>
+              <button type="button" onClick={() => { setForm({ gamerName: '', steamId: '', riotId: '', email: '', password: '', avatarDataUrl: '', tags: [], pastTournaments: [] }); }} className="w-full sm:w-auto px-4 py-2 border border-gray-700 rounded-full">Reset</button>
             </div>
 
             <p className="text-sm text-gray-400 mt-4">This is a frontend-only mock. Registration stores info locally and shows your profile.</p>

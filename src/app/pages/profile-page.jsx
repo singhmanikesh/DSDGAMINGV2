@@ -49,6 +49,7 @@ export function ProfilePage() {
             <div className="flex-1">
               <h2 className="text-2xl font-bold">{user.gamerName}</h2>
               <p className="text-sm text-gray-400">Steam ID: <span className="text-white font-semibold">{user.steamId}</span></p>
+              <p className="text-sm text-gray-400">HP: <span className="text-white font-semibold">{user.hp ?? 100}</span></p>
 
               <div className="mt-4 flex items-center gap-2 flex-wrap">
                 {/* tags */}
