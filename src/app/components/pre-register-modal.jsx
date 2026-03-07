@@ -1,5 +1,9 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { X, Sparkles } from 'lucide-react';
+
+// Endpoint can be overridden via Vite env var `VITE_PRE_REGISTER_API`
+const PRE_REGISTER_API = "http://localhost:9000/records";
 
 export function PreRegisterModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -10,19 +14,34 @@ export function PreRegisterModal({ isOpen, onClose }) {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', gamertag: '' });
-      onClose();
-    }, 3000);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      await axios.post(PRE_REGISTER_API, formData);
+      setSubmitted(true);
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', gamertag: '' });
+        onClose();
+      }, 3000);
+    } catch (error) {
+      setErrorMessage('Something went wrong. Please try again.');
+      console.error('Pre-register failed:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -241,13 +260,20 @@ export function PreRegisterModal({ isOpen, onClose }) {
                   </div>
                 </div>
 
+                {errorMessage && (
+                  <p className="text-center text-red-400 text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+                    {errorMessage}
+                  </p>
+                )}
+
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(255,77,0,0.6)] transition-all duration-300 transform hover:scale-105"
+                  className={`w-full px-8 py-4 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(255,77,0,0.6)] transition-all duration-300 transform hover:scale-105 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  disabled={isSubmitting}
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                 >
-                  CLAIM YOUR EXCLUSIVE OFFERS NOW! 🚀
+                  {isSubmitting ? 'Submitting...' : 'CLAIM YOUR EXCLUSIVE OFFERS NOW! 🚀'}
                 </button>
 
                 <p className="text-center text-gray-500 text-sm mt-4" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 400 }}>
