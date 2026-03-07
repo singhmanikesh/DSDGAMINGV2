@@ -3,6 +3,9 @@ import tournamentLogo from '../../assets/tournnament.png';
 
 export function ProfilePage() {
   const [user, setUser] = useState(null);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   useEffect(() => {
     try {
@@ -77,6 +80,45 @@ export function ProfilePage() {
             ) : (
               <p className="text-gray-400">You haven't joined any tournaments yet.</p>
             )}
+          </section>
+
+          <hr className="my-6 border-gray-800" />
+
+          <section>
+            <h3 className="text-lg font-bold mb-3">Change Password</h3>
+            <p className="text-sm text-gray-400 mb-3">Change your account password (frontend-only).</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-300 mb-2">Old password</label>
+                <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-300 mb-2">New password</label>
+                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-300 mb-2">Confirm new password</label>
+                <input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-3">
+              <button onClick={() => {
+                if (!oldPassword || !newPassword || !confirmNewPassword) { alert('Fill all fields'); return; }
+                if (newPassword !== confirmNewPassword) { alert('New passwords do not match'); return; }
+                if (!user) { alert('No user'); return; }
+                if (oldPassword !== user.password) { alert('Old password is incorrect'); return; }
+                const updated = { ...user, password: newPassword };
+                localStorage.setItem('dsd_user', JSON.stringify(updated));
+                setUser(updated);
+                setOldPassword(''); setNewPassword(''); setConfirmNewPassword('');
+                alert('Password updated');
+              }} className="px-4 py-2 bg-[#FF4D00] rounded-md">Change Password</button>
+
+              <button onClick={() => { setOldPassword(''); setNewPassword(''); setConfirmNewPassword(''); }} className="px-4 py-2 border rounded-md">Reset</button>
+            </div>
           </section>
         </div>
       </main>

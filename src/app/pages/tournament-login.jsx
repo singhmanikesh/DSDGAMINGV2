@@ -5,6 +5,13 @@ import tournamentLogo from '../../assets/tournnament.png';
 export function TournamentLoginPage() {
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
+  const [forgotVisible, setForgotVisible] = useState(false);
+  const [forgotStep, setForgotStep] = useState('email'); // 'email' | 'otp' | 'reset'
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [enteredOtp, setEnteredOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [form, setForm] = useState({
     gamerName: '',
     steamId: '',
@@ -181,9 +188,91 @@ export function TournamentLoginPage() {
             </div>
 
             <p className="text-sm text-gray-400 mt-4">This is a frontend-only mock. Registration stores info locally and shows your profile.</p>
+
+            {!isRegister && (
+              <div className="mt-3">
+                <button type="button" onClick={() => { setForgotVisible(true); setForgotStep('email'); setForgotEmail(form.email || ''); }} className="text-sm text-[#FF4D00] underline">Forgot password?</button>
+              </div>
+            )}
           </form>
         </div>
       </main>
+
+      {/* Forgot password modal (frontend-only mock) */}
+      {forgotVisible && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#0f0f14] border border-[#222025] rounded-2xl p-6">
+            <h3 className="text-lg font-bold mb-4">Forgot Password</h3>
+
+            {forgotStep === 'email' && (
+              <div className="space-y-3">
+                <label className="block text-sm text-gray-300">Email</label>
+                <input value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => {
+                    if (!forgotEmail) { alert('Enter your email'); return; }
+                    // verify email exists in localStorage
+                    const raw = localStorage.getItem('dsd_user');
+                    if (!raw) { alert('No account found for this email'); return; }
+                    const stored = JSON.parse(raw);
+                    if (stored.email !== forgotEmail) { alert('No account found for this email'); return; }
+                    // generate otp
+                    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+                    setGeneratedOtp(otp);
+                    // in a real app we'd send this via email — here we'll show a friendly notice
+                    alert('OTP sent (mock): ' + otp);
+                    setForgotStep('otp');
+                  }} className="px-4 py-2 bg-[#FF4D00] rounded-md">Send OTP</button>
+                  <button onClick={() => setForgotVisible(false)} className="px-4 py-2 border rounded-md">Cancel</button>
+                </div>
+              </div>
+            )}
+
+            {forgotStep === 'otp' && (
+              <div className="space-y-3">
+                <label className="block text-sm text-gray-300">Enter OTP</label>
+                <input value={enteredOtp} onChange={(e) => setEnteredOtp(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => {
+                    if (enteredOtp === generatedOtp) {
+                      setForgotStep('reset');
+                    } else {
+                      alert('Incorrect OTP');
+                    }
+                  }} className="px-4 py-2 bg-[#FF4D00] rounded-md">Verify OTP</button>
+                  <button onClick={() => { setForgotStep('email'); setGeneratedOtp(''); setEnteredOtp(''); }} className="px-4 py-2 border rounded-md">Back</button>
+                </div>
+              </div>
+            )}
+
+            {forgotStep === 'reset' && (
+              <div className="space-y-3">
+                <label className="block text-sm text-gray-300">New password</label>
+                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                <label className="block text-sm text-gray-300">Confirm password</label>
+                <input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]" />
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => {
+                    if (!newPassword || !confirmNewPassword) { alert('Fill both fields'); return; }
+                    if (newPassword !== confirmNewPassword) { alert('Passwords do not match'); return; }
+                    // update stored password
+                    const raw = localStorage.getItem('dsd_user');
+                    if (!raw) { alert('Unexpected error'); return; }
+                    const stored = JSON.parse(raw);
+                    if (stored.email !== forgotEmail) { alert('Unexpected error'); return; }
+                    stored.password = newPassword;
+                    localStorage.setItem('dsd_user', JSON.stringify(stored));
+                    alert('Password changed. Redirecting to profile.');
+                    setForgotVisible(false);
+                    navigate('/profile');
+                  }} className="px-4 py-2 bg-[#FF4D00] rounded-md">Save Password</button>
+                  <button onClick={() => setForgotVisible(false)} className="px-4 py-2 border rounded-md">Cancel</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
