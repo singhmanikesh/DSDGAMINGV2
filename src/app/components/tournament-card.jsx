@@ -53,7 +53,9 @@ export function TournamentCard({
 
           {/* Prize */}
           <div className="flex items-center gap-2">
-            {prizeIcon ? (
+            {(typeof gameMode === 'string' && gameMode.toLowerCase().includes('wingman')) ? (
+              <Trophy size={16} className="text-[#FF4D00] sm:w-[18px] sm:h-[18px]" />
+            ) : prizeIcon ? (
               <img src={faceitLogo} alt="Prize" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
             ) : (
               <Trophy size={16} className="text-[#FF4D00] sm:w-[18px] sm:h-[18px]" />
