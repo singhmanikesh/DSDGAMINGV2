@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import tournamentLogo from '../../assets/tournnament.png';
+import { axiosClient, useUserContext } from '../context/user-context';
 
 export function TournamentLoginPage() {
   const navigate = useNavigate();
-  const [isRegister, setIsRegister] = useState(false);
+  const { authMode, setAuthMode, form, updateField, resetForm, setUser } = useUserContext();
+  const isRegister = authMode === 'register';
   const [forgotVisible, setForgotVisible] = useState(false);
   const [forgotStep, setForgotStep] = useState('email'); // 'email' | 'otp' | 'reset'
   const [forgotEmail, setForgotEmail] = useState('');
@@ -12,20 +15,11 @@ export function TournamentLoginPage() {
   const [enteredOtp, setEnteredOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [form, setForm] = useState({
-    gamerName: '',
-    steamId: '',
-    riotId: '',
-    email: '',
-    password: '',
-    avatarDataUrl: '',
-    tags: [],
-    pastTournaments: [],
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
+    updateField(name, value);
   };
 
 
@@ -43,66 +37,120 @@ export function TournamentLoginPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setForm((s) => ({ ...s, avatarDataUrl: reader.result }));
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      updateField('avatarDataUrl', result);
+    };
     reader.readAsDataURL(file);
   };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (isSubmitting) return;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validation: email and password are required for both register and login
-    if (!form.email || !form.password) {
-      alert('Email and password are required');
-      return;
-    }
+  if (!form.email || !form.password) {
+    alert('Email and password are required');
+    return;
+  }
 
+  if (isRegister && !form.gamerName) {
+    alert('Gamer name is required for registration');
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
     if (isRegister) {
-      // create new user and persist (frontend-only)
-      // require gamerName as mandatory for registration
-      if (!form.gamerName) {
-        alert('Gamer name is required for registration');
-        return;
-      }
-
-      const initials = getInitials(form.gamerName, form.email);
-      const user = {
-        gamerName: form.gamerName || '',
-        steamId: form.steamId || '',
-          riotId: form.riotId || '',
-          hp: 100,
+      const payload = {
         email: form.email,
+        gamerName: form.gamerName,
+        steamId: form.steamId,
+        riotId: form.riotId,
         password: form.password,
         avatar: form.avatarDataUrl || null,
-        avatarInitials: form.avatarDataUrl ? null : initials,
-        tags: form.tags.length ? form.tags : [],
-        pastTournaments: form.pastTournaments || [],
+        tags: form.tags,
+        pastTournaments: form.pastTournaments,
       };
-      localStorage.setItem('dsd_user', JSON.stringify(user));
+
+      const response = await axiosClient.post('/register', payload);
+
+      if (response.status === 201) {
+        const data = response.data;
+
+        const initials = getInitials(form.gamerName, form.email);
+
+        const storedUser = {
+          ...(data?.data || data || {}),
+          email: payload.email,
+          gamerName: payload.gamerName,
+          steamId: payload.steamId,
+          riotId: payload.riotId,
+          password: payload.password,
+          avatar: payload.avatar,
+          avatarInitials: payload.avatar ? null : initials,
+          tags: payload.tags?.length ? payload.tags : [],
+          pastTournaments: payload.pastTournaments || [],
+          hp: 100,
+        };
+                    // setting in local storage
+        localStorage.setItem('dsd_user', JSON.stringify(storedUser));
+        setUser(storedUser);
+
+        toast.success('Registration successful. Please login to continue.');
+        setAuthMode('login');
+        resetForm();
+        navigate('/tournament/login');
+        return;
+      }
+    }
+
+    const loginPayload = { email: form.email, password: form.password };
+
+    const response = await axiosClient.post('/login', loginPayload);
+
+    if (response.status === 200) {
+      const data = response.data;
+
+const accessToken = data.accesstoken;
+const refreshToken = data.refreshtoken;
+const userData = data.user;
+
+const storedUser = {
+  ...userData,
+  accessToken,
+  refreshToken,
+};
+      if (accessToken) {
+        axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      }
+
+      localStorage.setItem('dsd_user', JSON.stringify(storedUser));
+      if (accessToken) localStorage.setItem('dsd_access_token', accessToken);
+      if (refreshToken) localStorage.setItem('dsd_refresh_token', refreshToken);
+      setUser(storedUser);
+
       navigate('/profile');
+    }
+
+  } catch (err) {
+    const status = err?.response?.status;
+
+    if (status === 400) {
+      const serverErr = err?.response?.data?.error || err?.response?.data?.message;
+      toast.error(serverErr || 'Invalid request.');
       return;
     }
 
-    // Login flow: verify against stored user
-    try {
-      const raw = localStorage.getItem('dsd_user');
-      if (!raw) {
-        alert('No account found. Please register first.');
-        return;
-      }
-      const stored = JSON.parse(raw);
-      if (stored.email !== form.email) {
-        alert('No account found for this email. Please register first.');
-        return;
-      }
-      if (stored.password !== form.password) {
-        alert('Incorrect password');
-        return;
-      }
-      // success
-      navigate('/profile');
-    } catch (e) {
-      alert('Login error');
-    }
-  };
+    const msg =
+      err?.response?.data?.message ||
+      err?.message ||
+      'Request failed';
+
+    toast.error(msg);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
@@ -115,7 +163,7 @@ export function TournamentLoginPage() {
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl sm:text-3xl font-extrabold">{isRegister ? 'Register' : 'Login'}</h1>
             <button
-              onClick={() => setIsRegister(!isRegister)}
+              onClick={() => setAuthMode(isRegister ? 'login' : 'register')}
               className="text-sm text-[#FF4D00] border border-[#FF4D00] px-3 py-1 rounded-full"
             >
               {isRegister ? 'Switch to Login' : 'Switch to Register'}
@@ -193,8 +241,8 @@ export function TournamentLoginPage() {
             )}
 
             <div className="flex flex-col sm:flex-row items-center gap-3">
-              <button type="submit" className="w-full sm:w-auto bg-[#FF4D00] text-white px-6 py-3 rounded-full font-bold">{isRegister ? 'Register' : 'Login'}</button>
-              <button type="button" onClick={() => { setForm({ gamerName: '', steamId: '', riotId: '', email: '', password: '', avatarDataUrl: '', tags: [], pastTournaments: [] }); }} className="w-full sm:w-auto px-4 py-2 border border-gray-700 rounded-full">Reset</button>
+              <button type="submit" disabled={isSubmitting} className="w-full sm:w-auto bg-[#FF4D00] text-white px-6 py-3 rounded-full font-bold disabled:opacity-70 disabled:cursor-not-allowed">{isSubmitting ? 'Please wait...' : isRegister ? 'Register' : 'Login'}</button>
+              <button type="button" onClick={() => { resetForm(); setForgotStep('email'); setForgotVisible(false); setForgotEmail(''); setGeneratedOtp(''); setEnteredOtp(''); setNewPassword(''); setConfirmNewPassword(''); }} className="w-full sm:w-auto px-4 py-2 border border-gray-700 rounded-full">Reset</button>
             </div>
 
             <p className="text-sm text-gray-400 mt-4">This is a frontend-only mock. Registration stores info locally and shows your profile.</p>

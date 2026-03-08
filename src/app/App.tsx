@@ -1,5 +1,7 @@
 import { RouterProvider } from 'react-router';
 import { router } from './routes.jsx';
+import { UserProvider } from './context/user-context';
+import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   return (
@@ -33,7 +35,10 @@ export default function App() {
         }
       `}</style>
 
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+        <Toaster position="top-center" richColors closeButton />
+      </UserProvider>
     </>
   );
 }
