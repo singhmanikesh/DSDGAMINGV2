@@ -37,8 +37,8 @@ export function PreRegisterModal({ isOpen, onClose }) {
         onClose();
       }, 3000);
     } catch (error) {
-      setErrorMessage('Something went wrong. Please try again.');
-      console.error('Pre-register failed:', error);
+      setErrorMessage('Email already registered.');
+      console.error('Email Already Registered:', error);
     } finally {
       setIsSubmitting(false);
     }
