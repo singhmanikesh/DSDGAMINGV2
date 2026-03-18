@@ -1,5 +1,5 @@
 import { Calendar, Trophy, Users, Zap, Target } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const tournaments = [

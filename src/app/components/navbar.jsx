@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import foxCharacter from '../../assets/fox charcter left to dsd logo.png';
 import dsdLogo from '../../assets/DSD logo nav bar.png';
@@ -38,25 +38,25 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black shadow-lg">
-      <div className="max-w-full mx-auto">
-        <div className="flex items-center justify-between h-[82px] md:h-[95px] px-4">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-[82px] md:h-[90px] lg:h-[95px]">
           {/* Logo */}
-          <div className="flex items-center gap-0">
+          <div className="flex items-center gap-2">
             {/* <img src={foxCharacter} alt="DSD Character" className="h-[70px] md:h-[140px] w-[120px] md:w-[140px] object-contain" /> */}
-            <img src={dsdLogo} alt="DSD Premium Logo" className="h-[100px] md:h-[150px] w-auto object-contain -ml-4 md:ml-5" />
+            <img src={dsdLogo} alt="DSD Premium Logo" className="h-14 md:h-16 lg:h-20 w-auto object-contain -ml-2 md:ml-2" />
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#FF4D00] p-3"
+            className="lg:hidden text-[#FF4D00] p-3"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 ml-auto pr-4">
+          <div className="hidden lg:flex flex-wrap items-center gap-4 xl:gap-6 ml-auto pr-2">
             <a
               href="#home"
               onClick={handleHomeClick}
@@ -67,21 +67,21 @@ export function Navbar() {
             </a>
             <a
               href="/under-construction"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
             >
               DSD BOUNTY BOARD
             </a>
             <a
               href="/under-construction"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
             >
               LEGENDS
             </a>
             <a
               href="/under-construction"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-base uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-extrabold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
             >
               DSD POINTS SHOP
@@ -115,28 +115,28 @@ export function Navbar() {
             </div>
             <Link
               to="/tournaments"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-sm uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               Tournaments
             </Link>
             <a
               href="#pricing"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-sm uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               Pricing
             </a>
             <a
               href="#about"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-sm uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               About
             </a>
             <a
               href="#contact"
-              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-sm uppercase tracking-wide"
+              className="text-[#FF4D00] hover:text-[#FFD700] transition-colors duration-200 font-bold text-xs xl:text-sm uppercase tracking-wide"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               Contact
@@ -147,7 +147,7 @@ export function Navbar() {
               href="http://wa.me/919538585761"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-9 py-4 bg-[#FF4D00] text-white rounded-full font-bold text-base uppercase tracking-wide hover:bg-[#FFD700] hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] transition-all duration-300"
+              className="px-6 py-2.5 lg:px-6 lg:py-3 xl:px-7 xl:py-3 bg-[#FF4D00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:bg-[#FFD700] hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] transition-all duration-300"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, transform: 'scale(0.92)' }}
             >
               Book a PC

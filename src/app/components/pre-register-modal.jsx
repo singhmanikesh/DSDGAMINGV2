@@ -93,14 +93,14 @@ export function PreRegisterModal({ isOpen, onClose }) {
               {/* Header */}
               <div className="text-center mb-8 sm:mb-10">
                 <div className="flex items-center justify-center gap-2 mb-4">
-                  <Sparkles className="text-[#FF4D00] animate-pulse" size={32} />
+                  
                   <h2 
                     className="text-3xl sm:text-4xl md:text-5xl text-white"
                     style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
                   >
                     PRE-REGISTER NOW
                   </h2>
-                  <Sparkles className="text-[#FF4D00] animate-pulse" size={32} />
+                 
                 </div>
                 
                 <div className="inline-block px-6 py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] rounded-full mb-4 animate-pulse">

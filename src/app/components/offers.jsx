@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import foxCharacter from '../../assets/fox charcter left to dsd logo.png';
 import bootcampImage from '../../assets/Bootcamp.png';
 import birthdayImage from '../../assets/bday.png';

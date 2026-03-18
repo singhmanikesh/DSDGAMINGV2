@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import { HomePage } from './pages/home-page.jsx';
 import { TournamentsPage } from './pages/tournaments-page.jsx';
 import { MyTournamentsPage } from './pages/my-tournaments-page.jsx';
@@ -12,6 +12,7 @@ import { NotFoundPage } from './pages/not-found.jsx';
 import { UnderConstructionPage } from './pages/under-construction.jsx';
 import { TournamentLoginPage } from './pages/tournament-login.jsx';
 import { ProfilePage } from './pages/profile-page.jsx';
+import { ChangePasswordPage } from './pages/change-password-page.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
   {
     path: "/profile",
     element: <ProfilePage />,
+  },
+  {
+    path: "/profile/change-password",
+    element: <ChangePasswordPage />,
   },
   {
     path: "/my-tournaments",
