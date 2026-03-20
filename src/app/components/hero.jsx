@@ -28,16 +28,20 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-24 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 w-full max-w-[1700px] mx-auto px-5 md:px-10 lg:px-14 py-16 sm:py-24 md:py-32">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
           {/* Left Column - Text and CTAs */}
-          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
+          <div className="space-y-6 sm:space-y-8 text-left lg:max-w-3xl">
             <div className="space-y-3 sm:space-y-4">
               <h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-wide md:tracking-wider"
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white"
                 style={{ fontFamily: 'Russo One, sans-serif', fontWeight: 800 }}
               >
-                Experience <span className="text-[#7C3AED]">Gaming</span> at the Next Level
+                Experience
+                <br />
+                <span className="text-[#7C3AED]">Gaming at the</span>
+                <br />
+                 Next Level
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl text-[#A0A0A0] font-medium" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
@@ -50,10 +54,10 @@ export function Hero() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 md:gap-4 justify-center md:justify-start">
+            <div className="flex flex-wrap items-center gap-3 md:gap-4 justify-start">
               <button
                 onClick={() => navigate('/tournaments')}
-                className="px-5 md:px-6 lg:px-8 py-3 sm:py-4 bg-transparent border-2 border-[#FF4D00] text-white rounded-full font-bold hover:bg-[#FF4D00]/20 hover:shadow-[0_0_20px_rgba(255,77,0,0.4)] transition-all duration-300"
+                className="px-4 md:px-5 lg:px-6 py-3 sm:py-3.5 bg-transparent border-2 border-[#FF4D00] text-white rounded-full font-bold text-sm sm:text-base md:text-lg hover:bg-[#FF4D00]/20 hover:shadow-[0_0_16px_rgba(255,77,0,0.35)] transition-all duration-300"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
               >
                 View Tournaments
@@ -61,7 +65,7 @@ export function Hero() {
               
               <button
                 onClick={() => setIsPreRegisterModalOpen(true)}
-                className="px-5 md:px-6 lg:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold hover:shadow-[0_0_30px_rgba(255,77,0,0.6)] transition-all duration-300 transform hover:scale-105"
+                className="px-4 md:px-5 lg:px-6 py-3 sm:py-3.5 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm sm:text-base md:text-lg hover:shadow-[0_0_22px_rgba(255,77,0,0.5)] transition-all duration-300 transform hover:scale-105"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
               >
                 Pre-Register Now
