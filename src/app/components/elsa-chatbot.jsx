@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { X, MapPin, DollarSign, Trophy, Gamepad2, Coffee, Send } from 'lucide-react';
+import { toast } from 'sonner';
 import elsaAvatar from '../../assets/fox charcter left to dsd logo.png';
+import { submitContactForm } from '../utils/contact-api';
 
 export function ElsaChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [screen, setScreen] = useState('greeting'); // 'greeting' or 'options'
   const [userName, setUserName] = useState('');
   const [inputName, setInputName] = useState('');
+  const [email, setEmail] = useState('');
+  const [customMessage, setCustomMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const quickOptions = [
     {
@@ -64,6 +69,31 @@ export function ElsaChatbot() {
     if (inputName.trim()) {
       setUserName(inputName.trim());
       setScreen('options');
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!email.trim() || !customMessage.trim()) {
+      toast.error('Please add your email and message.');
+      return;
+    }
+
+    try {
+      setIsSending(true);
+      await submitContactForm({
+        name: userName || 'Guest',
+        email: email.trim(),
+        topic: 'Elsa Chat',
+        message: customMessage.trim(),
+        consent: true,
+      });
+      toast.success('Message sent. We will get back to you soon.');
+      setCustomMessage('');
+    } catch (err) {
+      console.error('Elsa chat message failed:', err);
+      toast.error('Could not send your message. Please try again.');
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -232,6 +262,41 @@ export function ElsaChatbot() {
                       </button>
                     );
                   })}
+                </div>
+
+                {/* Custom message to contact endpoint */}
+                <div className="mt-4 space-y-3 bg-[#1a1a1f] border border-[#FF4D00]/30 rounded-xl p-3">
+                  <p
+                    className="text-white text-sm font-semibold"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+                  >
+                    Send us a message
+                  </p>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email"
+                    className="w-full bg-[#0f0f14] border border-[#FF4D00]/30 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF4D00] text-sm"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
+                  />
+                  <textarea
+                    value={customMessage}
+                    onChange={(e) => setCustomMessage(e.target.value)}
+                    placeholder="What would you like to ask?"
+                    rows="3"
+                    className="w-full bg-[#0f0f14] border border-[#FF4D00]/30 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF4D00] text-sm resize-none"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={isSending}
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#FF4D00] to-red-600 text-white font-bold py-2.5 rounded-lg hover:shadow-[0_0_18px_rgba(255,77,0,0.6)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    <Send size={16} />
+                    {isSending ? 'Sending...' : 'Send message'}
+                  </button>
                 </div>
               </>
             )}

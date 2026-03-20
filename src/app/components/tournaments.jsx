@@ -1,5 +1,5 @@
 import { Calendar, Trophy, Users, Zap, Target } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const tournaments = [
@@ -42,6 +42,10 @@ const tournaments = [
 ];
 
 export function Tournaments() {
+  const navigate = useNavigate();
+
+  const goToTournaments = () => navigate('/tournaments');
+
   return (
     <section id="tournaments" className="py-12 md:py-16 lg:py-24 bg-gradient-to-b from-[#0B0B0F] to-[#111118] relative overflow-hidden">
       {/* Background decoration */}
@@ -71,7 +75,11 @@ export function Tournaments() {
           {tournaments.map((tournament, index) => (
             <div
               key={index}
-              className="group relative bg-[#111118] rounded-2xl overflow-hidden border-2 border-[#FF4D00]/30 hover:border-[#FF4D00] transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,77,0,0.6)] hover:transform hover:-translate-y-3"
+              onClick={goToTournaments}
+              className="group relative bg-[#111118] rounded-2xl overflow-hidden border-2 border-[#FF4D00]/30 hover:border-[#FF4D00] transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,77,0,0.6)] hover:transform hover:-translate-y-3 cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && goToTournaments()}
             >
               {/* Image */}
               <div className="relative h-40 sm:h-48 overflow-hidden">
@@ -125,6 +133,10 @@ export function Tournaments() {
                 </div>
 
                 <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToTournaments();
+                  }}
                   className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-xl font-bold hover:shadow-[0_0_20px_rgba(255,77,0,0.8)] transition-all duration-300 transform hover:scale-[1.02] text-sm sm:text-base uppercase"
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                 >

@@ -1,8 +1,10 @@
 import { Phone, Trophy, Monitor } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function FloatingBar() {
   const [visible, setVisible] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,16 +25,18 @@ export function FloatingBar() {
       <div className="bg-black/80 backdrop-blur-xl border border-[#26262B] rounded-full px-3 sm:px-6 py-3 sm:py-4 shadow-[0_0_40px_rgba(0,0,0,0.8)] hover:shadow-[0_0_50px_rgba(255,77,0,0.3)] transition-all duration-300">
         <div className="flex items-center justify-center gap-2 sm:gap-4">
           {/* Call Us */}
-          <button
+          <a
+            href="tel:+919538585761"
             className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-[#141419] text-white rounded-full font-semibold hover:bg-[#26262B] hover:text-[#FF4D00] transition-all duration-300 border border-[#26262B] hover:border-[#FF4D00] text-xs sm:text-base"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
           >
             <Phone size={16} className="sm:w-[18px] sm:h-[18px]" />
             <span className="hidden xs:inline sm:inline">Call</span>
-          </button>
+          </a>
 
           {/* Register Tournament */}
           <button
+            onClick={() => navigate('/tournaments')}
             className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-semibold hover:shadow-[0_0_20px_rgba(255,77,0,0.6)] transition-all duration-300 transform hover:scale-105 text-xs sm:text-base whitespace-nowrap"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
           >

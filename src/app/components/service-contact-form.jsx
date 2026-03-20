@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import contactDoodle from '../../assets/fox charcter left to dsd logos.png';
+import { submitContactForm } from '../utils/contact-api';
 
 export function ServiceContactForm({ serviceName, pricing = [] }) {
   const [formData, setFormData] = useState({
@@ -10,12 +12,44 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
     message: '',
     consent: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const canSubmit = useMemo(() => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.topic.trim() !== '' &&
+      formData.consent &&
+      !isSubmitting
+    );
+  }, [formData.consent, formData.email, formData.name, formData.topic, isSubmitting]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { ...formData, service: serviceName });
-    // Here you would typically send the data to a backend
-    alert(`Thank you for your interest in ${serviceName}! We'll get back to you soon.`);
+
+    if (!canSubmit) {
+      toast.error('Please complete required fields and consent.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const response = await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        topic: formData.topic || serviceName || 'General Inquiry',
+        message: formData.message || '',
+        consent: formData.consent,
+      });
+
+      toast.success(response?.message || `Thank you for your interest in ${serviceName}! We'll get back to you soon.`);
+      setFormData({ name: '', surname: '', email: '', topic: '', message: '', consent: false });
+    } catch (error) {
+      console.error('Service contact form failed:', error);
+      toast.error('There was a problem submitting the form. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -166,11 +200,11 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={!formData.consent}
+          disabled={!canSubmit}
           className="w-full py-4 bg-[#FF4D00] text-white rounded-full font-bold text-lg hover:bg-[#FF6A00] hover:shadow-[0_0_30px_rgba(255,77,0,0.6)] transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
         >
-          SEND
+          {isSubmitting ? 'Sending...' : 'SEND'}
         </button>
       </form>
     </div>

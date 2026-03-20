@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import foxDoodle from '../../assets/fox charcter left to dsd logos.png';
+import { submitContactForm } from '../utils/contact-api';
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -9,17 +11,45 @@ export function ContactSection() {
     message: '',
     consent: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const canSubmit = useMemo(() => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.topic.trim() !== '' &&
+      formData.consent &&
+      !isSubmitting
+    );
+  }, [formData.consent, formData.email, formData.name, formData.topic, isSubmitting]);
   // just comment
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.consent) {
-      alert('Please consent to the processing of personal data');
+
+    if (!canSubmit) {
+      toast.error('Please complete required fields and consent.');
       return;
     }
-    console.log('Contact form submitted:', formData);
-    alert('Thank you for contacting us! We\'ll get back to you soon.');
-    setFormData({ name: '', email: '', topic: '', message: '', consent: false });
+
+    try {
+      setIsSubmitting(true);
+      const response = await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        topic: formData.topic || 'General Inquiry',
+        message: formData.message || '',
+        consent: formData.consent,
+      });
+
+      toast.success(response?.message || 'Contact form submitted successfully');
+      setFormData({ name: '', email: '', topic: '', message: '', consent: false });
+    } catch (error) {
+      console.error('Contact form failed:', error);
+      toast.error('There was a problem submitting the form. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -147,7 +177,7 @@ export function ContactSection() {
                 </div>
                 <p className="text-[9px] text-gray-500 leading-relaxed pl-5" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                   I consent to the processing of my personal data by the data controller{' '}
-                  <span className="font-semibold">DSD GAMING</span> for the purpose of responding to 
+                  <span className="font-semibold">DSD PREMIUM GAMING</span> for the purpose of responding to 
                   my inquiry. I acknowledge that I provide my personal data voluntarily and that it is 
                   truthful. I also declare that I have read the content of the Information Clause, 
                   including information about the purpose and means of data processing and the right to 
@@ -158,10 +188,11 @@ export function ContactSection() {
               <div className="pt-3">
                 <button
                   type="submit"
+                  disabled={!canSubmit}
                   className="px-8 py-2 border-2 border-[#FF4D00] text-[#FF4D00] rounded-full text-xs uppercase tracking-wider hover:bg-[#FF4D00] hover:text-white transition-all duration-300"
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                 >
-                  SEND
+                  {isSubmitting ? 'Sending...' : 'SEND'}
                 </button>
               </div>
             </form>
@@ -174,12 +205,14 @@ export function ContactSection() {
                 className="text-xs uppercase tracking-wider text-[#0B0B0F] mb-3"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
-                DSD GAMING CAFE
+                DSD PREMIUM GAMING CAFE
               </h3>
               <div className="space-y-1.5 text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                <p className="text-xs">123 Gaming Street, Tech City</p>
-                <p className="text-xs">58 501 26 66</p>
-                <p className="text-xs">contact@dsdgaming.com</p>
+                <p className="text-xs">DSD PREMIUM GAMING</p>
+                <p className="text-xs">46/3, Kalinga Rao Rd, Sampangi Rama Nagara</p>
+                <p className="text-xs">Bengaluru, Karnataka 560027</p>
+                <p className="text-xs">Phone: +91 95385 85761</p>
+                <p className="text-xs">management@dsdpremiumgaming.com</p>
               </div>
             </div>
 

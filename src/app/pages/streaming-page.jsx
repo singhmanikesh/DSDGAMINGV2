@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { Navbar } from '../components/navbar';
 import { Footer } from '../components/footer';
 import { FloatingBar } from '../components/floating-bar';
@@ -6,6 +7,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import streamingImage from '../../assets/streaming.png';
+import { submitContactForm } from '../utils/contact-api';
 
 export function StreamingPage() {
   const [formData, setFormData] = useState({
@@ -47,15 +49,27 @@ export function StreamingPage() {
     ]
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.consent) {
-      alert('Please consent to the processing of personal data');
+      toast.error('Please consent to the processing of personal data');
       return;
     }
-    console.log('Form submitted:', formData);
-    alert('Thank you! We\'ll get back to you soon.');
-    setFormData({ name: '', email: '', topic: '', message: '', consent: false });
+    try {
+      const response = await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        topic: formData.topic || 'Streaming',
+        message: formData.message || '',
+        consent: formData.consent,
+      });
+
+      toast.success(response?.message || 'Contact form submitted successfully');
+      setFormData({ name: '', email: '', topic: '', message: '', consent: false });
+    } catch (error) {
+      console.error('Streaming contact form failed:', error);
+      toast.error('There was a problem submitting the form. Please try again.');
+    }
   };
 
   const handleChange = (e) => {
