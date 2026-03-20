@@ -53,6 +53,9 @@ export function TournamentsPage() {
   const [error, setError] = useState('');
   const [page, setPage] = useState(0);
   const [joinedTournamentIds, setJoinedTournamentIds] = useState(new Set());
+  const [soloJoinedIds, setSoloJoinedIds] = useState(new Set());
+  const [teamCreatedIds, setTeamCreatedIds] = useState(new Set());
+  const [joinInitialMode, setJoinInitialMode] = useState('solo');
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [joinUserId, setJoinUserId] = useState('');
@@ -288,15 +291,38 @@ export function TournamentsPage() {
     setSelectedTournament(tournament);
     setJoinUserId(getStoredUserId() || '');
     setIsJoinModalOpen(true);
+    setJoinInitialMode('solo');
   };
 
-  const handleJoined = (tournamentId) => {
+  const handleOpenJoinWithMode = (tournament, mode) => {
+    setSelectedTournament(tournament);
+    setJoinUserId(getStoredUserId() || '');
+    setIsJoinModalOpen(true);
+    setJoinInitialMode(mode === 'team' ? 'team' : 'solo');
+  };
+
+  const handleJoined = (tournamentId, mode = 'solo') => {
     if (!tournamentId) return;
+    const key = String(tournamentId);
     setJoinedTournamentIds((prev) => {
       const next = new Set(prev);
-      next.add(String(tournamentId));
+      next.add(key);
       return next;
     });
+    if (mode === 'solo') {
+      setSoloJoinedIds((prev) => {
+        const next = new Set(prev);
+        next.add(key);
+        return next;
+      });
+    }
+    if (mode === 'team') {
+      setTeamCreatedIds((prev) => {
+        const next = new Set(prev);
+        next.add(key);
+        return next;
+      });
+    }
     setIsJoinModalOpen(false);
     fetchAll();
   };
@@ -426,7 +452,10 @@ export function TournamentsPage() {
                 isJoined={isJoined}
                 isExpired={status === 'COMPLETED'}
                 statusLabel={status === 'COMPLETED' ? 'Completed' : undefined}
-                onJoin={() => handleOpenJoin(tournament)}
+                onJoinSolo={() => handleOpenJoinWithMode(tournament, 'solo')}
+                onCreateTeam={() => handleOpenJoinWithMode(tournament, 'team')}
+                isSoloJoined={tournamentKey ? soloJoinedIds.has(tournamentKey) : false}
+                hasCreatedTeam={tournamentKey ? teamCreatedIds.has(tournamentKey) : false}
               />
             );
           })}
@@ -494,6 +523,7 @@ export function TournamentsPage() {
         onJoined={handleJoined}
         defaultLeaderName={getStoredGamerName()}
         userId={joinUserId}
+        initialMode={joinInitialMode}
       />
     </div>
   );

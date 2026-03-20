@@ -14,6 +14,10 @@ export function TournamentCard({
   isExpired = false,
   statusLabel,
   onJoin,
+  onJoinSolo,
+  onCreateTeam,
+  isSoloJoined = false,
+  hasCreatedTeam = false,
 }) {
   return (
     <div
@@ -105,21 +109,37 @@ export function TournamentCard({
             )}
           </div>
 
-          {/* Join Button */}
+          {/* Join / Create Team Buttons */}
           {showJoinButton && (
-            <button
-              disabled={isJoined}
-              type="button"
-              className={`w-full sm:w-auto px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 group-hover:scale-105 ${
-                isJoined
-                  ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
-                  : 'bg-[#FF4D00] text-white hover:bg-[#FF6A00] hover:shadow-[0_0_15px_rgba(255,77,0,0.4)]'
-              }`}
-              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-              onClick={onJoin}
-            >
-              {isJoined ? 'Joined' : 'Join'}
-            </button>
+            <div className="flex gap-2 items-center">
+              <button
+                disabled={isSoloJoined || isExpired}
+                type="button"
+                onClick={onJoinSolo || onJoin}
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
+                  isSoloJoined || isExpired
+                    ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
+                    : 'bg-[#FF4D00] text-white hover:bg-[#FF6A00] hover:shadow-[0_0_15px_rgba(255,77,0,0.4)]'
+                }`}
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+              >
+                {isSoloJoined ? 'Joined' : isExpired ? 'Expired' : 'Join Solo'}
+              </button>
+
+              <button
+                disabled={hasCreatedTeam || isExpired}
+                type="button"
+                onClick={onCreateTeam || onJoin}
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
+                  hasCreatedTeam || isExpired
+                    ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
+                    : 'bg-[#27272a] text-gray-300 border border-gray-800 hover:bg-[#2a2a2f]'
+                }`}
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+              >
+                {hasCreatedTeam ? 'Team Created' : 'Create Team'}
+              </button>
+            </div>
           )}
         </div>
       </div>

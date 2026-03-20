@@ -32,6 +32,7 @@ export function JoinTournamentModal({
   tournament,
   onClose,
   onJoined,
+  initialMode = 'solo',
   defaultLeaderName = '',
   userId = '',
 }) {
@@ -47,13 +48,13 @@ export function JoinTournamentModal({
 
   useEffect(() => {
     if (isOpen) {
-      setMode('solo');
+      setMode(initialMode || 'solo');
       setTeamLeaderGamerName(defaultLeaderName || '');
       setTeamName('');
       setGamerNames(['']);
       setError('');
     }
-  }, [isOpen, defaultLeaderName, tournamentId]);
+  }, [isOpen, defaultLeaderName, tournamentId, initialMode]);
 
   const handleClose = () => {
     if (isSubmitting) return;
@@ -77,7 +78,7 @@ export function JoinTournamentModal({
       const requestValue = Number.isFinite(parsedUserId) ? parsedUserId : effectiveUserId;
       await axiosClient.post(`/tournaments/${tournamentId}/join`, { userId: requestValue });
       toast.success('Joined successfully');
-      onJoined?.(tournamentId);
+      onJoined?.(tournamentId, 'solo');
       onClose?.();
     } catch (err) {
       setError('Unable to join solo. Please try again.');
@@ -109,7 +110,7 @@ export function JoinTournamentModal({
     try {
       await axiosClient.post('/tournaments/create-team', payload);
       toast.success('Team created successfully');
-      onJoined?.(tournamentId);
+      onJoined?.(tournamentId, 'team');
       onClose?.();
     } catch (err) {
       setError('Unable to create team. Please try again.');
