@@ -17,6 +17,9 @@ export function TournamentNavbar() {
 
   const handleLogout = () => {
     localStorage.removeItem('dsd_user');
+    localStorage.removeItem('dsd_user_id');
+    localStorage.removeItem('accesstoken');
+    localStorage.removeItem('refreshtoken');
     setUser(null);
     window.location.href = '/tournaments';
   };

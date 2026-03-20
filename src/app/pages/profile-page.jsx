@@ -1,8 +1,31 @@
 import { useEffect, useState } from "react";
 import tournamentLogo from "../../assets/tournnament.png";
+import { axiosClient } from "../context/user-context";
+
+const getStoredUserId = () => {
+  const cached = localStorage.getItem("dsd_user_id");
+  if (cached) return cached;
+  try {
+    const raw = localStorage.getItem("dsd_user");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const id = parsed?.id || parsed?.user?.id;
+      if (id) {
+        localStorage.setItem("dsd_user_id", String(id));
+        return String(id);
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+  return null;
+};
 
 export function ProfilePage() {
   const [user, setUser] = useState(null);
+  const [pastTournaments, setPastTournaments] = useState([]);
+  const [isLoadingPast, setIsLoadingPast] = useState(false);
+  const [pastError, setPastError] = useState("");
   const avatarSrc = user?.avatarUrl || user?.avatar || null;
 
   useEffect(() => {
@@ -12,6 +35,37 @@ export function ProfilePage() {
     } catch (e) {
       setUser(null);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchPast = async () => {
+      const userId = getStoredUserId();
+      if (!userId) return;
+      setIsLoadingPast(true);
+      setPastError("");
+      try {
+        const { data } = await axiosClient.get(`/tournaments/user/${userId}`);
+        const items = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.content)
+            ? data.content
+            : [];
+        const now = new Date();
+        const expired = items.filter((t) => {
+          const expiryRaw = t?.tournamentExpiry || t?.expiry || t?.tournamentExpiryDate;
+          if (!expiryRaw) return false;
+          const expiry = new Date(expiryRaw);
+          return !Number.isNaN(expiry.getTime()) && expiry < now;
+        });
+        setPastTournaments(expired);
+      } catch (err) {
+        setPastError("Unable to load past tournaments.");
+      } finally {
+        setIsLoadingPast(false);
+      }
+    };
+
+    fetchPast();
   }, []);
 
   if (!user) {
@@ -104,21 +158,37 @@ export function ProfilePage() {
 
           <section>
             <h3 className="text-lg font-bold mb-3">Past Tournaments</h3>
-            {user.pastTournaments && user.pastTournaments.length > 0 ? (
-              <ul className="space-y-2">
-                {user.pastTournaments.map((t, i) => (
+            {isLoadingPast && (
+              <p className="text-gray-400">Loading past tournaments...</p>
+            )}
+            {pastError && !isLoadingPast && (
+              <p className="text-red-400">{pastError}</p>
+            )}
+            {!isLoadingPast && !pastError && pastTournaments.length === 0 && (
+              <p className="text-gray-400">You have not completed any tournaments.</p>
+            )}
+            {!isLoadingPast && !pastError && pastTournaments.length > 0 && (
+              <ul className="space-y-3">
+                {pastTournaments.map((t, i) => (
                   <li
-                    key={i}
-                    className="bg-[#0b0b0f] p-3 rounded-lg border border-[#222]"
+                    key={t?.tournamentId || t?.id || i}
+                    className="bg-[#0b0b0f] p-4 rounded-lg border border-[#222] text-gray-500 opacity-75"
                   >
-                    {t}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div>
+                        <p className="text-xs uppercase tracking-wide text-gray-500">Expired</p>
+                        <h4 className="text-base font-semibold text-gray-300">{t?.tournamentName || t?.gameName || "Tournament"}</h4>
+                        <p className="text-sm text-gray-500">{t?.organizerName || "Organizer"}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-gray-500">Prize</p>
+                        <p className="text-sm font-semibold text-gray-400">{t?.tournamentPrize ?? "TBD"}</p>
+                        <p className="text-xs text-gray-500 mt-1">Expiry: {t?.tournamentExpiry || "N/A"}</p>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-gray-400">
-                You haven't joined any tournaments yet.
-              </p>
             )}
           </section>
 

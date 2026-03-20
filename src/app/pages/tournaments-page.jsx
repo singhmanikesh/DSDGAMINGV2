@@ -1,93 +1,305 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TournamentNavbar } from '../components/tournament-navbar';
 import { TournamentCard } from '../components/tournament-card';
 import { FilterModal } from '../components/filter-modal';
+import { JoinTournamentModal } from '../components/join-tournament-modal';
 import { SlidersHorizontal } from 'lucide-react';
+import { axiosClient, useUserContext } from '../context/user-context';
+
+const getStoredUserId = () => {
+  const cached = localStorage.getItem('dsd_user_id');
+  if (cached) return cached;
+  try {
+    const raw = localStorage.getItem('dsd_user');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const id = parsed?.id || parsed?.user?.id;
+      if (id) {
+        localStorage.setItem('dsd_user_id', String(id));
+        return String(id);
+      }
+    }
+  } catch (e) {
+    // ignore parsing errors
+  }
+  return null;
+};
+
+const extractTournamentId = (tournament) => {
+  const id = tournament?.tournamentId ?? tournament?.id;
+  return id === undefined || id === null ? null : String(id);
+};
+
+const getStoredGamerName = () => {
+  try {
+    const raw = localStorage.getItem('dsd_user');
+    if (!raw) return '';
+    const parsed = JSON.parse(raw);
+    return parsed?.gamerName || parsed?.user?.gamerName || '';
+  } catch (e) {
+    return '';
+  }
+};
 
 export function TournamentsPage() {
   const navigate = useNavigate();
+  const { apiBaseUrl } = useUserContext();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [activeGameMode, setActiveGameMode] = useState(null);
+  const [activeGameMode, setActiveGameMode] = useState('ALL');
+  const [tournaments, setTournaments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [error, setError] = useState('');
+  const [page, setPage] = useState(0);
+  const [joinedTournamentIds, setJoinedTournamentIds] = useState(new Set());
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [selectedTournament, setSelectedTournament] = useState(null);
+  const [joinUserId, setJoinUserId] = useState('');
+  const pageSize = 10;
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const defaultFilters = {
+    gameMode: [],
+    joinable: 'all',
+    status: [],
+    format: [],
+  };
 
-  const tournaments = [
-    {
-      time: 'Fri 27 Feb',
-      title: 'Wingman - Workshop',
-      organizer: 'FACEIT',
-      gameMode: 'Wingman',
-      prize: '8,500',
-      slots: '9/32',
-      prizeIcon: true,
-    },
-    {
-      time: 'IN 44 MINUTES, 12:12 GMT+5:30',
-      title: 'Aim Duel',
-      organizer: 'FACEIT',
-      gameMode: '1v1',
-      prize: '5,250',
-      slots: '33/32',
-    },
-    {
-      time: 'IN 758 MINUTES, 13:16 GMT+1:52',
-      title: 'Premium - Pistol Only - Skill 8-10 - PrizePool 15k',
-      organizer: 'FACEIT',
-      gameMode: '1v1 Aim',
-      prize: '18,670',
-      slots: '3/256',
-    },
-    {
-      time: 'IN 758 MINUTES, 13:16 GMT+1:52',
-      title: 'Premium - Pistol Only - Skill 3 - PrizePool 10k',
-      organizer: 'FACEIT',
-      gameMode: '1v1 Aim',
-      prize: '16,340',
-      slots: '3/128',
-    },
-    {
-      time: 'IN ABOUT 3 HOURS, 15:12 GMT+5:30',
-      title: '1v1 Showdown',
-      organizer: 'SkinCasino5G',
-      gameMode: '1v1 Aim',
-      prize: '700',
-      slots: '1/264',
-    },
-    {
-      time: 'IN ABOUT 3 HOURS, 16:25 GMT+5:30',
-      title: 'Aim Pistol',
-      organizer: 'FACEIT',
-      gameMode: '1v1 Aim',
-      prize: '1,250',
-      slots: '30/32',
-    },
-    {
-      time: 'IN ABOUT 3 HOURS, 16:25 GMT+5:30',
-      title: 'Wingman - Workshop',
-      organizer: 'FACEIT',
-      gameMode: 'Wingman',
-      prize: '8,500',
-      slots: '9/32',
-      prizeIcon: true,
-    },
-    {
-      time: 'IN ABOUT 5 HOURS, 18:25 GMT+5:30',
-      title: 'Normal Competitive',
-      organizer: 'FACEIT',
-      gameMode: '5v5',
-      prize: '27,000',
-      slots: '2/16',
-    },
-    {
-      time: 'IN ABOUT 5 HOURS, 17:15 GMT+5:30',
-      title: 'Duo Showdown',
-      organizer: 'SkinCasino5G',
-      gameMode: 'Wingman',
-      prize: '700',
-      slots: '1/64',
-    },
-  ];
+  const [filters, setFilters] = useState(defaultFilters);
 
-  const gameModes = ['1v1 Aim', '2v2', '5v5', 'Hostage', 'Wingman'];
+  const gameModes = ['ALL', 'VALORANT', 'DOTA2', 'CSGO'];
+  const formatCategoryLabel = (value) => {
+    if (!value || typeof value !== 'string') return 'UNKNOWN';
+    return value.toUpperCase();
+  };
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return 'Date TBD';
+    try {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(new Date(isoDate));
+    } catch (err) {
+      return 'Date TBD';
+    }
+  };
+
+  const getTournamentDate = (tournament) => tournament?.tournamentCreated;
+
+  const formatPrize = (amount) => {
+    if (amount === null || amount === undefined) return 'TBD';
+    const value = Number(amount);
+    if (Number.isNaN(value)) return String(amount);
+    return value.toLocaleString('en-US', { minimumFractionDigits: 0 });
+  };
+
+  const formatSlots = (joined) => {
+    const totalJoined = Number(joined);
+    if (Number.isNaN(totalJoined)) return 'Slots TBD';
+    return `${totalJoined} joined`;
+  };
+
+  const isFilterActive = useMemo(() => {
+    const quick = activeGameMode && activeGameMode !== 'ALL';
+    const modalFilters =
+      (filters.gameMode && filters.gameMode.length > 0) ||
+      (filters.status && filters.status.length > 0) ||
+      (filters.format && filters.format.length > 0) ||
+      filters.joinable === 'joinable';
+    return quick || modalFilters;
+  }, [activeGameMode, filters]);
+
+  const filterSummary = useMemo(() => {
+    const parts = [];
+    if (activeGameMode && activeGameMode !== 'ALL') parts.push(activeGameMode);
+    if (filters.gameMode?.length) parts.push(...filters.gameMode);
+    if (filters.status?.length) parts.push(...filters.status);
+    if (filters.format?.length) parts.push(...filters.format);
+    if (filters.joinable === 'joinable') parts.push('JOINABLE_ONLY');
+    return parts.join(' · ');
+  }, [activeGameMode, filters]);
+
+  const fetchAll = useCallback(async () => {
+    const userId = getStoredUserId();
+    setIsLoading(true);
+    setError('');
+
+    console.log('TournamentsPage: fetching tournaments from API', { page, pageSize, userId });
+
+    try {
+      const tournamentRequest = axiosClient.get('/tournaments/paginated', {
+        params: { page, size: pageSize },
+      });
+
+      const joinedRequest = userId
+        ? axiosClient.get(`/tournaments/user/${userId}`)
+        : Promise.resolve({ data: [] });
+
+      const [{ data: tournamentsData }, { data: joinedData }] = await Promise.all([
+        tournamentRequest,
+        joinedRequest,
+      ]);
+
+      console.log('TournamentsPage: API responses received', {
+        tournamentsCount: Array.isArray(tournamentsData?.content)
+          ? tournamentsData.content.length
+          : Array.isArray(tournamentsData)
+            ? tournamentsData.length
+            : 0,
+        joinedCount: Array.isArray(joinedData?.content)
+          ? joinedData.content.length
+          : Array.isArray(joinedData)
+            ? joinedData.length
+            : 0,
+      });
+
+      const items = Array.isArray(tournamentsData?.content)
+        ? tournamentsData.content
+        : Array.isArray(tournamentsData)
+          ? tournamentsData
+          : [];
+
+      const joinedItems = Array.isArray(joinedData)
+        ? joinedData
+        : Array.isArray(joinedData?.content)
+          ? joinedData.content
+          : [];
+
+      const ids = new Set();
+      joinedItems.forEach((item) => {
+        const key = extractTournamentId(item);
+        if (key) ids.add(key);
+      });
+
+      setJoinedTournamentIds(ids);
+      setTournaments(items);
+      setTotalPages(Number.isFinite(tournamentsData?.totalPages) ? tournamentsData.totalPages : 1);
+      setTotalElements(
+        Number.isFinite(tournamentsData?.totalElements)
+          ? tournamentsData.totalElements
+          : items.length
+      );
+    } catch (err) {
+      setError('Unable to load tournaments. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, pageSize]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const run = async () => {
+      if (!isMounted) return;
+      await fetchAll();
+    };
+
+    run();
+
+    const handleFocus = () => {
+      fetchAll();
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [apiBaseUrl, fetchAll]);
+
+  const filteredTournaments = useMemo(() => {
+    const normalize = (val) =>
+      typeof val === 'string' ? val.toUpperCase().replace(/\s+/g, '_') : '';
+    const toDate = (val) => {
+      if (!val) return null;
+      const d = new Date(val);
+      return Number.isNaN(d.getTime()) ? null : d;
+    };
+
+    const computeStatus = (tournament) => {
+      const now = new Date();
+      const start = toDate(tournament?.tournamentCreated);
+      const expiry = toDate(tournament?.tournamentExpiry);
+
+      if (expiry && expiry < now) return 'FINISHED';
+      if (start && start <= now && (!expiry || expiry >= now)) return 'ONGOING';
+      if (start && start > now) return 'UPCOMING';
+      return 'UPCOMING';
+    };
+
+    return tournaments.filter((tournament) => {
+      const category = normalize(
+        tournament?.tournamentCategory || tournament?.gameMode || tournament?.category
+      );
+      const format = normalize(
+        tournament?.tournamentFormat || tournament?.format || tournament?.tournamentCategory
+      );
+
+      if (activeGameMode && activeGameMode !== 'ALL' && category !== normalize(activeGameMode)) {
+        return false;
+      }
+
+      if (filters.gameMode.length) {
+        const allowed = filters.gameMode.map((mode) => normalize(mode));
+        if (!allowed.includes(category)) return false;
+      }
+
+      if (filters.status.length) {
+        const status = computeStatus(tournament);
+        if (!filters.status.includes(status)) return false;
+      }
+
+      if (filters.format.length) {
+        if (!filters.format.includes(format)) return false;
+      }
+
+      if (filters.joinable === 'joinable') {
+        const joinableFlag = tournament?.isJoinable ?? tournament?.joinable;
+        if (joinableFlag !== true) return false;
+      }
+
+      return true;
+    });
+  }, [tournaments, activeGameMode, filters]);
+
+  const handleApplyFilters = (newFilters) => {
+    setIsFiltering(true);
+    setPage(0);
+    setFilters({
+      gameMode: newFilters?.gameMode || [],
+      joinable: newFilters?.joinable || 'all',
+      status: newFilters?.status || [],
+      format: newFilters?.format || [],
+    });
+  };
+
+  useEffect(() => {
+    if (!isFiltering) return undefined;
+    const id = setTimeout(() => setIsFiltering(false), 200);
+    return () => clearTimeout(id);
+  }, [isFiltering, filters, activeGameMode, tournaments]);
+
+  const handleOpenJoin = (tournament) => {
+    setSelectedTournament(tournament);
+    setJoinUserId(getStoredUserId() || '');
+    setIsJoinModalOpen(true);
+  };
+
+  const handleJoined = (tournamentId) => {
+    if (!tournamentId) return;
+    setJoinedTournamentIds((prev) => {
+      const next = new Set(prev);
+      next.add(String(tournamentId));
+      return next;
+    });
+    setIsJoinModalOpen(false);
+    fetchAll();
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -134,7 +346,15 @@ export function TournamentsPage() {
           {gameModes.map((mode) => (
             <button
               key={mode}
-              onClick={() => setActiveGameMode(activeGameMode === mode ? null : mode)}
+              onClick={() => {
+                setIsFiltering(true);
+                const nextMode = activeGameMode === mode ? 'ALL' : mode;
+                setActiveGameMode(nextMode);
+                setPage(0);
+                if (nextMode === 'ALL') {
+                  setFilters(defaultFilters);
+                }
+              }}
               className={`flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-all ${
                 activeGameMode === mode
                   ? 'bg-[#FF4D00] text-white shadow-[0_0_15px_rgba(255,77,0,0.3)]'
@@ -142,7 +362,7 @@ export function TournamentsPage() {
               }`}
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
             >
-              {mode}
+              {formatCategoryLabel(mode)}
             </button>
           ))}
 
@@ -154,44 +374,127 @@ export function TournamentsPage() {
             <SlidersHorizontal size={16} />
             FILTERS
           </button>
+
+          {filterSummary && (
+            <span
+              className="text-[11px] sm:text-xs text-gray-400 bg-[#1a1a1f] border border-gray-800 px-3 py-1 rounded-lg"
+              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+            >
+              {filterSummary}
+            </span>
+          )}
         </div>
 
         {/* Tournament List */}
         <div className="space-y-3 sm:space-y-4 pb-8 sm:pb-12">
-          {tournaments.map((tournament, index) => (
-            <TournamentCard key={index} {...tournament} />
-          ))}
+          {(isLoading || isFiltering) && (
+            <p className="text-gray-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+              {isLoading ? 'Loading tournaments...' : 'Applying filters...'}
+            </p>
+          )}
+
+          {error && !isLoading && (
+            <p className="text-red-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+              {error}
+            </p>
+          )}
+
+          {!isLoading && !error && filteredTournaments.length === 0 && (
+            <p className="text-gray-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+              {isFilterActive ? 'No record found for this category.' : 'No tournaments found.'}
+            </p>
+          )}
+
+          {!isLoading && !error && filteredTournaments.map((tournament) => {
+            const tournamentKey = extractTournamentId(tournament);
+            const isJoined = tournamentKey ? joinedTournamentIds.has(tournamentKey) : false;
+            const status = (() => {
+              const now = new Date();
+              const expiry = tournament?.tournamentExpiry ? new Date(tournament.tournamentExpiry) : null;
+              if (expiry && !Number.isNaN(expiry.getTime()) && expiry < now) return 'COMPLETED';
+              return null;
+            })();
+            return (
+              <TournamentCard
+                key={tournament?.tournamentId || `${tournament?.gameName}-${tournament?.tournamentCreated}`}
+                time={formatDate(getTournamentDate(tournament))}
+                title={tournament?.tournamentName || tournament?.gameName || 'Tournament'}
+                organizer={tournament?.organizerName || 'Organizer'}
+                gameMode={tournament?.tournamentCategory || tournament?.gameName || 'Wingman'}
+                prize={formatPrize(tournament?.tournamentPrize)}
+                slots={formatSlots(tournament?.totalJoined)}
+                isJoined={isJoined}
+                isExpired={status === 'COMPLETED'}
+                statusLabel={status === 'COMPLETED' ? 'Completed' : undefined}
+                onJoin={() => handleOpenJoin(tournament)}
+              />
+            );
+          })}
         </div>
 
         {/* Pagination */}
         <div className="flex justify-center items-center gap-1 sm:gap-2 pb-12 sm:pb-16">
-          <button 
-            className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-[#FF4D00] text-white rounded-lg shadow-[0_0_15px_rgba(255,77,0,0.3)] transition-all text-sm sm:text-base"
-            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg border transition-all text-sm sm:text-base ${
+              page === 0
+                ? 'bg-[#0f0f14] text-gray-600 border-gray-800 cursor-not-allowed'
+                : 'bg-[#1a1a1f] text-gray-300 border-gray-800 hover:bg-[#2a2a2f]'
+            }`}
+            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+            aria-label="Previous page"
           >
-            1
+            «
           </button>
-          {[2, 3, 4, 5].map((page) => (
+
+          {Array.from({ length: totalPages }, (_, i) => i).map((i) => (
             <button
-              key={page}
-              className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-[#1a1a1f] text-gray-400 hover:bg-[#2a2a2f] hover:text-white border border-gray-800 rounded-lg transition-all text-sm sm:text-base"
-              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+              key={i}
+              onClick={() => setPage(i)}
+              className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg transition-all text-sm sm:text-base ${
+                page === i
+                  ? 'bg-[#FF4D00] text-white shadow-[0_0_15px_rgba(255,77,0,0.3)]'
+                  : 'bg-[#1a1a1f] text-gray-300 border border-gray-800 hover:bg-[#2a2a2f]'
+              }`}
+              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
             >
-              {page}
+              {i + 1}
             </button>
           ))}
-          <span className="text-gray-600 px-1 sm:px-2 text-sm sm:text-base">...</span>
+
           <button
-            className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-[#1a1a1f] text-gray-400 hover:bg-[#2a2a2f] hover:text-white border border-gray-800 rounded-lg transition-all text-sm sm:text-base"
+            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            disabled={page >= totalPages - 1}
+            className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg border transition-all text-sm sm:text-base ${
+              page >= totalPages - 1
+                ? 'bg-[#0f0f14] text-gray-600 border-gray-800 cursor-not-allowed'
+                : 'bg-[#1a1a1f] text-gray-300 border-gray-800 hover:bg-[#2a2a2f]'
+            }`}
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+            aria-label="Next page"
           >
-            32
+            »
           </button>
         </div>
       </div>
 
       {/* Filter Modal */}
-      <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} />
+      <FilterModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onApply={handleApplyFilters}
+        initialFilters={filters}
+      />
+
+      <JoinTournamentModal
+        isOpen={isJoinModalOpen}
+        tournament={selectedTournament}
+        onClose={() => setIsJoinModalOpen(false)}
+        onJoined={handleJoined}
+        defaultLeaderName={getStoredGamerName()}
+        userId={joinUserId}
+      />
     </div>
   );
 }

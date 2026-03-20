@@ -1,16 +1,46 @@
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-export function FilterModal({ isOpen, onClose }) {
-  const [selectedFilters, setSelectedFilters] = useState({
-    gameMode: [],
-    joinable: 'all',
-    status: [],
-    format: [],
-    prize: [],
-    region: 'all',
-    country: 'all',
-  });
+const GAME_MODE_OPTIONS = [
+  { label: 'AIM_1V1', value: 'AIM_1V1' },
+  { label: 'MODE_2V2', value: 'MODE_2V2' },
+  { label: 'MODE_5V5', value: 'MODE_5V5' },
+];
+
+const STATUS_OPTIONS = [
+  { label: 'UPCOMING', value: 'UPCOMING' },
+  { label: 'ONGOING', value: 'ONGOING' },
+  { label: 'FINISHED', value: 'FINISHED' },
+];
+
+const FORMAT_OPTIONS = [
+  { label: 'SINGLE_ELIMINATION', value: 'SINGLE_ELIMINATION' },
+  { label: 'DOUBLE_ELIMINATION', value: 'DOUBLE_ELIMINATION' },
+  { label: 'ROUND_ROBIN', value: 'ROUND_ROBIN' },
+  { label: 'SWISS_SYSTEM', value: 'SWISS_SYSTEM' },
+  { label: 'FFA', value: 'FFA' },
+];
+
+const DEFAULT_FILTERS = {
+  gameMode: [],
+  joinable: 'all',
+  status: [],
+  format: [],
+};
+
+export function FilterModal({ isOpen, onClose, onApply, initialFilters }) {
+  const hydratedInitial = useMemo(
+    () => ({ ...DEFAULT_FILTERS, ...(initialFilters || {}) }),
+    [initialFilters]
+  );
+
+  const [selectedFilters, setSelectedFilters] = useState(hydratedInitial);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedFilters(hydratedInitial);
+    }
+  }, [hydratedInitial, isOpen]);
 
   const toggleFilter = (category, value) => {
     setSelectedFilters((prev) => {
@@ -28,15 +58,12 @@ export function FilterModal({ isOpen, onClose }) {
   };
 
   const resetFilters = () => {
-    setSelectedFilters({
-      gameMode: [],
-      joinable: 'all',
-      status: [],
-      format: [],
-      prize: [],
-      region: 'all',
-      country: 'all',
-    });
+    setSelectedFilters({ ...DEFAULT_FILTERS });
+  };
+
+  const handleApply = () => {
+    onApply?.(selectedFilters);
+    onClose?.();
   };
 
   if (!isOpen) return null;
@@ -71,18 +98,18 @@ export function FilterModal({ isOpen, onClose }) {
               Game mode
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['1v1 Aim', '2v2', '5v5', 'Hostage', 'Wingman'].map((mode) => (
+              {GAME_MODE_OPTIONS.map((mode) => (
                 <button
-                  key={mode}
-                  onClick={() => toggleFilter('gameMode', mode)}
+                  key={mode.value}
+                  onClick={() => toggleFilter('gameMode', mode.value)}
                   className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    selectedFilters.gameMode.includes(mode)
+                    selectedFilters.gameMode.includes(mode.value)
                       ? 'bg-[#FF4D00] text-white'
                       : 'bg-[#2a2a2f] text-gray-300 hover:bg-[#3a3a3f]'
                   }`}
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                 >
-                  {mode}
+                  {mode.label}
                 </button>
               ))}
             </div>
@@ -97,18 +124,21 @@ export function FilterModal({ isOpen, onClose }) {
               Joinable
             </h3>
             <div className="flex gap-2">
-              {['All', 'Joinable only'].map((option) => (
+              {[
+                { label: 'All', value: 'all' },
+                { label: 'Joinable only', value: 'joinable' },
+              ].map((option) => (
                 <button
-                  key={option}
-                  onClick={() => toggleFilter('joinable', option.toLowerCase())}
+                  key={option.value}
+                  onClick={() => toggleFilter('joinable', option.value)}
                   className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    selectedFilters.joinable === option.toLowerCase()
+                    selectedFilters.joinable === option.value
                       ? 'bg-[#FF4D00] text-white'
                       : 'bg-[#2a2a2f] text-gray-300 hover:bg-[#3a3a3f]'
                   }`}
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                 >
-                  {option}
+                  {option.label}
                 </button>
               ))}
             </div>
@@ -123,18 +153,18 @@ export function FilterModal({ isOpen, onClose }) {
               Status
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['Upcoming', 'Ongoing', 'Finished'].map((status) => (
+              {STATUS_OPTIONS.map((status) => (
                 <button
-                  key={status}
-                  onClick={() => toggleFilter('status', status)}
+                  key={status.value}
+                  onClick={() => toggleFilter('status', status.value)}
                   className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    selectedFilters.status.includes(status)
+                    selectedFilters.status.includes(status.value)
                       ? 'bg-[#FF4D00] text-white'
                       : 'bg-[#2a2a2f] text-gray-300 hover:bg-[#3a3a3f]'
                   }`}
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                 >
-                  {status}
+                  {status.label}
                 </button>
               ))}
             </div>
@@ -149,91 +179,23 @@ export function FilterModal({ isOpen, onClose }) {
               Format
             </h3>
             <div className="grid grid-cols-2 gap-2">
-              {['Single Elimination', 'Double elimination', 'Round Robin', 'Swiss System', 'FFA'].map((format) => (
+              {FORMAT_OPTIONS.map((format) => (
                 <button
-                  key={format}
-                  onClick={() => toggleFilter('format', format)}
+                  key={format.value}
+                  onClick={() => toggleFilter('format', format.value)}
                   className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    selectedFilters.format.includes(format)
+                    selectedFilters.format.includes(format.value)
                       ? 'bg-[#FF4D00] text-white'
                       : 'bg-[#2a2a2f] text-gray-300 hover:bg-[#3a3a3f]'
                   }`}
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                 >
-                  {format}
+                  {format.label}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Prize */}
-          <div>
-            <h3 
-              className="text-sm text-gray-400 mb-3"
-              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
-            >
-              Prize
-            </h3>
-            <div className="flex gap-2">
-              {['FACEIT Points', 'Swag/Coupons', 'Custom'].map((prize) => (
-                <button
-                  key={prize}
-                  onClick={() => toggleFilter('prize', prize)}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    selectedFilters.prize.includes(prize)
-                      ? 'bg-[#FF4D00] text-white'
-                      : 'bg-[#2a2a2f] text-gray-300 hover:bg-[#3a3a3f]'
-                  }`}
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
-                >
-                  {prize}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Region & Country */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h3 
-                className="text-sm text-gray-400 mb-3"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
-              >
-                Region
-              </h3>
-              <select
-                value={selectedFilters.region}
-                onChange={(e) => toggleFilter('region', e.target.value)}
-                className="w-full bg-[#2a2a2f] text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-[#FF4D00] focus:outline-none"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
-              >
-                <option value="all">All regions</option>
-                <option value="eu">Europe</option>
-                <option value="na">North America</option>
-                <option value="asia">Asia</option>
-              </select>
-            </div>
-            
-            <div>
-              <h3 
-                className="text-sm text-gray-400 mb-3"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
-              >
-                Country
-              </h3>
-              <select
-                value={selectedFilters.country}
-                onChange={(e) => toggleFilter('country', e.target.value)}
-                className="w-full bg-[#2a2a2f] text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-[#FF4D00] focus:outline-none"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
-              >
-                <option value="all">All countries</option>
-                <option value="us">United States</option>
-                <option value="uk">United Kingdom</option>
-                <option value="de">Germany</option>
-              </select>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}
@@ -246,7 +208,7 @@ export function FilterModal({ isOpen, onClose }) {
             RESET FILTERS
           </button>
           <button
-            onClick={onClose}
+            onClick={handleApply}
             className="px-6 py-2.5 bg-[#FF4D00] text-white rounded-lg text-sm uppercase tracking-wide hover:bg-[#FF6A00] transition-colors"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
           >
