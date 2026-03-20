@@ -55,6 +55,7 @@ export function BootcampPage() {
       toast.error('Please consent to the processing of personal data');
       return;
     }
+    setIsSubmitting(true);
     try {
       const response = await submitContactForm({
         name: formData.name,
@@ -70,6 +71,9 @@ export function BootcampPage() {
       console.error('Bootcamp contact form failed:', error);
       toast.error('There was a problem submitting the form. Please try again.');
     }
+    finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -79,6 +83,8 @@ export function BootcampPage() {
       [name]: type === 'checkbox' ? checked : value
     }));
   };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -283,10 +289,11 @@ export function BootcampPage() {
                 <div className="pt-3">
                   <button
                     type="submit"
-                    className="px-8 py-2 border-2 border-[#FF4D00] text-[#FF4D00] rounded-full text-xs uppercase tracking-wider hover:bg-[#FF4D00] hover:text-white transition-all duration-300"
+                    disabled={!formData.consent || isSubmitting}
+                    className={`px-8 py-2 border-2 border-[#FF4D00] text-[#FF4D00] rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-[#FF4D00] hover:text-white'}`}
                     style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                   >
-                    SEND
+                    {isSubmitting ? 'Sending...' : 'SEND'}
                   </button>
                 </div>
               </form>
