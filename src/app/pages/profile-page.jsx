@@ -3,6 +3,7 @@ import tournamentLogo from "../../assets/tournnament.png";
 
 export function ProfilePage() {
   const [user, setUser] = useState(null);
+  const avatarSrc = user?.avatarUrl || user?.avatar || null;
 
   useEffect(() => {
     try {
@@ -42,11 +43,11 @@ export function ProfilePage() {
         <div className="bg-[#0f0f14] border border-[#222025] rounded-2xl p-6 sm:p-10 shadow-lg">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#111] border border-gray-700 overflow-hidden flex-shrink-0 flex items-center justify-center text-2xl font-bold text-gray-200">
-              {user.avatar ? (
+              {avatarSrc ? (
                 <img
-                  src={user.avatar}
+                  src={avatarSrc}
                   alt="avatar"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                 />
               ) : user.avatarInitials ? (
                 <span>{user.avatarInitials}</span>

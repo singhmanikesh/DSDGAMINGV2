@@ -8,6 +8,7 @@ export type RegisterForm = {
   riotId: string;
   password: string;
   avatarDataUrl: string;
+  avatarFileName: string;
   tags: string[];
   pastTournaments: string[];
 };
@@ -42,6 +43,7 @@ const createDefaultForm = (): RegisterForm => ({
   riotId: '',
   password: '',
   avatarDataUrl: '',
+  avatarFileName: '',
   tags: [],
   pastTournaments: [],
 });
