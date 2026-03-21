@@ -1,4 +1,4 @@
-const CONTACT_ENDPOINT = 'http://localhost:8080/api/v1/contact';
+const CONTACT_ENDPOINT = 'https://dsdpremiumgaming.com/api/v1/contact';
 
 export async function submitContactForm(payload) {
   const response = await fetch(CONTACT_ENDPOINT, {
