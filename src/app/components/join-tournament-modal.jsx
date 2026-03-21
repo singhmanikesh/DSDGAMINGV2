@@ -81,7 +81,7 @@ export function JoinTournamentModal({
       onJoined?.(tournamentId, 'solo');
       onClose?.();
     } catch (err) {
-      setError('Unable to join solo. Please try again.');
+      setError('You have already joined this tournament');
     } finally {
       setIsSubmitting(false);
     }
