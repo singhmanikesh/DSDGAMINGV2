@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import axios from 'axios';
 

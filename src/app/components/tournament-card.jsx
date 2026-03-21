@@ -1,4 +1,4 @@
-import { Users, Trophy } from 'lucide-react';
+import { Users } from 'lucide-react';
 import faceitLogo from '../../assets/tournnament.png';
 
 export function TournamentCard({
@@ -7,6 +7,7 @@ export function TournamentCard({
   organizer,
   gameMode,
   prize,
+  hpReward,
   slots,
   prizeIcon,
   showJoinButton = true,
@@ -16,6 +17,7 @@ export function TournamentCard({
   onJoin,
   onJoinSolo,
   onCreateTeam,
+  onCardClick,
   isSoloJoined = false,
   hasCreatedTeam = false,
 }) {
@@ -24,6 +26,7 @@ export function TournamentCard({
       className={`bg-[#141419] border border-gray-800 rounded-xl p-4 sm:p-6 hover:border-[#FF4D00] hover:shadow-[0_0_20px_rgba(255,77,0,0.2)] transition-all duration-300 cursor-pointer group ${
         isExpired ? 'opacity-60 grayscale' : ''
       }`}
+      onClick={onCardClick}
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         {/* Left Side */}
@@ -62,9 +65,9 @@ export function TournamentCard({
         </div>
 
         {/* Right Side */}
-        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-6">
+        <div className="flex flex-wrap items-start gap-3 sm:grid sm:auto-cols-max sm:grid-flow-col sm:items-center sm:gap-6 sm:justify-end w-full sm:w-auto">
           {/* Game Mode */}
-          <div className="px-3 sm:px-4 py-2 bg-[#1a1a1f] rounded-lg border border-gray-800">
+          <div className="px-3 sm:px-4 py-2 bg-[#1a1a1f] rounded-lg border border-gray-800 sm:justify-self-end">
             <span 
               className="text-white text-xs sm:text-sm"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
@@ -74,13 +77,13 @@ export function TournamentCard({
           </div>
 
           {/* Prize */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap sm:justify-self-end">
             {(typeof gameMode === 'string' && gameMode.toLowerCase().includes('wingman')) ? (
-              <Trophy size={16} className="text-[#FF4D00] sm:w-[18px] sm:h-[18px]" />
+              <span className="text-[#FF4D00] sm:w-[18px] sm:h-[18px] text-[16px] sm:text-[18px]">₹</span>
             ) : prizeIcon ? (
               <img src={faceitLogo} alt="Prize" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
             ) : (
-              <Trophy size={16} className="text-[#FF4D00] sm:w-[18px] sm:h-[18px]" />
+              <span className="text-[#FF4D00] sm:w-[18px] sm:h-[18px] text-[16px] sm:text-[18px]">₹</span>
             )}
             <span 
               className="text-[#FF4D00] text-xs sm:text-sm"
@@ -90,8 +93,18 @@ export function TournamentCard({
             </span>
           </div>
 
+          {/* HP Reward (show blank if null) */}
+          <div className="flex items-center gap-2 whitespace-nowrap sm:justify-self-end">
+            <span className="text-gray-400 text-xs sm:text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+              HP Reward:
+            </span>
+            <span className="text-white text-xs sm:text-sm font-semibold" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}>
+              {hpReward === null || hpReward === undefined ? '' : hpReward}
+            </span>
+          </div>
+
           {/* Slots */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap sm:justify-self-end">
             <Users size={16} className="text-gray-500 sm:w-[18px] sm:h-[18px]" />
             <span 
               className="text-gray-400 text-xs sm:text-sm"
@@ -111,11 +124,14 @@ export function TournamentCard({
 
           {/* Join / Create Team Buttons */}
           {showJoinButton && (
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center flex-shrink-0 sm:justify-self-end">
               <button
                 disabled={isSoloJoined || isExpired}
                 type="button"
-                onClick={onJoinSolo || onJoin}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  (onJoinSolo || onJoin)?.(e);
+                }}
                 className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
                   isSoloJoined || isExpired
                     ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
@@ -129,7 +145,10 @@ export function TournamentCard({
               <button
                 disabled={hasCreatedTeam || isExpired}
                 type="button"
-                onClick={onCreateTeam || onJoin}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  (onCreateTeam || onJoin)?.(e);
+                }}
                 className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
                   hasCreatedTeam || isExpired
                     ? 'bg-gray-700 text-gray-300 cursor-not-allowed'

@@ -38,7 +38,7 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black shadow-lg">
-      <div className="w-full max-w-[1920px] mx-auto px-4 md:px-8 lg:px-10">
+      <div className="w-full max-w-[1920px] mx-auto px-2 md:px-4 lg:px-6">
         <div className="flex items-center justify-between h-[96px] md:h-[108px] lg:h-[118px] gap-8">
           {/* Logo */}
           <div className="flex items-center gap-4 shrink-0">
@@ -56,8 +56,8 @@ export function Navbar() {
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex flex-1 items-center justify-between gap-8">
-            <div className="flex flex-1 items-center justify-end gap-5 xl:gap-8 px-4 xl:px-10">
+          <div className="hidden lg:flex flex-1 items-center gap-6 px-2 xl:px-6 justify-end">
+            <div className="flex items-center gap-6 justify-end">
               <a
                 href="#home"
                 onClick={handleHomeClick}
@@ -144,16 +144,25 @@ export function Navbar() {
               </a>
             </div>
 
-            {/* CTA Button */}
-            <a
-              href="http://wa.me/919538585761"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 lg:px-6 lg:py-3 xl:px-7 xl:py-3.5 bg-[#FF4D00] text-white rounded-full font-bold text-sm lg:text-base uppercase tracking-wide hover:bg-[#FFD700] hover:shadow-[0_0_20px_rgba(255,215,0,0.55)] transition-all duration-300 shrink-0"
-              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, transform: 'scale(0.88)' }}
-            >
-              Book a PC
-            </a>
+            <div className="flex items-center gap-3">
+              <Link
+                to="/tournament/login"
+                className="px-[14px] py-[9px] lg:px-[18px] lg:py-[10.5px] bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-semibold text-xs lg:text-sm uppercase tracking-wide hover:shadow-[0_0_18px_rgba(255,77,0,0.35)] transition-all duration-200"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+              >
+                Register / Login
+              </Link>
+
+              <a
+                href="http://wa.me/919538585761"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-[14px] py-[9px] lg:px-[18px] lg:py-[10.5px] xl:px-[19px] xl:py-[11px] bg-[#FF4D00] text-white rounded-full font-semibold text-xs lg:text-sm uppercase tracking-wide hover:bg-[#FFD700] hover:shadow-[0_0_20px_rgba(255,215,0,0.55)] transition-all duration-200"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+              >
+                Book a PC
+              </a>
+            </div>
           </div>
         </div>
 
@@ -252,13 +261,21 @@ export function Navbar() {
               >
                 Contact
               </a>
-              
+              <Link
+                to="/tournament/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-5 py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:shadow-[0_0_20px_rgba(255,77,0,0.45)] transition-all duration-300 mt-2 text-center"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+              >
+                Register / Login
+              </Link>
+
               {/* Mobile CTA Button */}
               <a
                 href="http://wa.me/919538585761"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-9 py-4 bg-[#FF4D00] text-white rounded-full font-bold text-base uppercase tracking-wide hover:bg-[#FFD700] transition-all duration-300 mt-2 text-center"
+                className="px-8 py-3.5 bg-[#FF4D00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:bg-[#FFD700] transition-all duration-300 mt-2 text-center"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
                 Book a PC

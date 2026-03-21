@@ -1,4 +1,4 @@
-import { Calendar, Trophy, Users, Zap, Target } from 'lucide-react';
+import { Calendar, Users, Zap, Target } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
@@ -57,7 +57,7 @@ export function Tournaments() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] px-6 py-3 rounded-full mb-6">
-            <Trophy className="text-white" size={28} />
+            <span className="text-white text-3xl sm:text-4xl md:text-5xl">₹</span>
             <h2
               className="text-3xl sm:text-4xl md:text-5xl text-white tracking-wider"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
@@ -117,7 +117,7 @@ export function Tournaments() {
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-300">
-                    <Trophy size={16} className="text-[#FF4D00] flex-shrink-0" />
+                    <span className="text-[#FF4D00] flex-shrink-0 text-[16px] sm:text-[16px]">₹</span>
                     <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>Prize Pool: <span className="text-white font-bold">{tournament.prize}</span></span>
                   </div>
 

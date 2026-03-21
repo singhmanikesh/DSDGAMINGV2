@@ -265,6 +265,7 @@ export function MyTournamentsPage() {
                   organizer={tournament?.organizerName || 'Organizer'}
                   gameMode={tournament?.tournamentCategory || tournament?.gameName || 'Category'}
                   prize={formatPrize(tournament?.tournamentPrize)}
+                  hpReward={tournament?.hpReward}
                   slots={formatSlots(tournament?.totalJoined)}
                   showJoinButton={false}
                   isExpired={isExpired}

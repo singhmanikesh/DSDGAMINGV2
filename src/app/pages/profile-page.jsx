@@ -183,6 +183,7 @@ export function ProfilePage() {
                       <div className="text-right">
                         <p className="text-xs text-gray-500">Prize</p>
                         <p className="text-sm font-semibold text-gray-400">{t?.tournamentPrize ?? "TBD"}</p>
+                        <p className="text-xs text-gray-500 mt-1">HP Reward: <span className="text-gray-300">{t?.hpReward === null || t?.hpReward === undefined ? '' : t?.hpReward}</span></p>
                         <p className="text-xs text-gray-500 mt-1">Expiry: {t?.tournamentExpiry || "N/A"}</p>
                       </div>
                     </div>

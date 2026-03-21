@@ -58,6 +58,8 @@ export function TournamentsPage() {
   const [joinInitialMode, setJoinInitialMode] = useState('solo');
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [selectedTournament, setSelectedTournament] = useState(null);
+  const [isDescModalOpen, setIsDescModalOpen] = useState(false);
+  const [descTournament, setDescTournament] = useState(null);
   const [joinUserId, setJoinUserId] = useState('');
   const pageSize = 10;
   const [totalPages, setTotalPages] = useState(1);
@@ -71,11 +73,20 @@ export function TournamentsPage() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const gameModes = ['ALL', 'VALORANT', 'DOTA2', 'CSGO'];
-  const formatCategoryLabel = (value) => {
-    if (!value || typeof value !== 'string') return 'UNKNOWN';
-    return value.toUpperCase();
+  const normalizeCategory = (value) => {
+    if (!value || typeof value !== 'string') return '';
+    const up = value.toUpperCase().replace(/\s+/g, '_');
+    if (up === 'CSGO') return 'CS2';
+    return up;
   };
+
+  const displayCategory = (value) => {
+    const norm = normalizeCategory(value);
+    return norm || 'UNKNOWN';
+  };
+
+  const gameModes = ['ALL', 'VALORANT', 'DOTA2', 'CS2'];
+  const formatCategoryLabel = (value) => displayCategory(value);
 
   const formatDate = (isoDate) => {
     if (!isoDate) return 'Date TBD';
@@ -118,10 +129,10 @@ export function TournamentsPage() {
 
   const filterSummary = useMemo(() => {
     const parts = [];
-    if (activeGameMode && activeGameMode !== 'ALL') parts.push(activeGameMode);
-    if (filters.gameMode?.length) parts.push(...filters.gameMode);
+    if (activeGameMode && activeGameMode !== 'ALL') parts.push(displayCategory(activeGameMode));
+    if (filters.gameMode?.length) parts.push(...filters.gameMode.map(displayCategory));
     if (filters.status?.length) parts.push(...filters.status);
-    if (filters.format?.length) parts.push(...filters.format);
+    if (filters.format?.length) parts.push(...filters.format.map(displayCategory));
     if (filters.joinable === 'joinable') parts.push('JOINABLE_ONLY');
     return parts.join(' · ');
   }, [activeGameMode, filters]);
@@ -216,8 +227,7 @@ export function TournamentsPage() {
   }, [apiBaseUrl, fetchAll]);
 
   const filteredTournaments = useMemo(() => {
-    const normalize = (val) =>
-      typeof val === 'string' ? val.toUpperCase().replace(/\s+/g, '_') : '';
+    const normalize = (val) => normalizeCategory(val);
     const toDate = (val) => {
       if (!val) return null;
       const d = new Date(val);
@@ -270,14 +280,26 @@ export function TournamentsPage() {
     });
   }, [tournaments, activeGameMode, filters]);
 
+  const orderedTournaments = useMemo(() => {
+    const now = new Date();
+    return [...filteredTournaments].sort((a, b) => {
+      const expA = a?.tournamentExpiry ? new Date(a.tournamentExpiry) : null;
+      const expB = b?.tournamentExpiry ? new Date(b.tournamentExpiry) : null;
+      const isExpiredA = expA && !Number.isNaN(expA.getTime()) && expA < now;
+      const isExpiredB = expB && !Number.isNaN(expB.getTime()) && expB < now;
+      if (isExpiredA === isExpiredB) return 0;
+      return isExpiredA ? 1 : -1; // move expired to bottom
+    });
+  }, [filteredTournaments]);
+
   const handleApplyFilters = (newFilters) => {
     setIsFiltering(true);
     setPage(0);
     setFilters({
-      gameMode: newFilters?.gameMode || [],
+      gameMode: (newFilters?.gameMode || []).map(normalizeCategory),
       joinable: newFilters?.joinable || 'all',
       status: newFilters?.status || [],
-      format: newFilters?.format || [],
+      format: (newFilters?.format || []).map(normalizeCategory),
     });
   };
 
@@ -299,6 +321,11 @@ export function TournamentsPage() {
     setJoinUserId(getStoredUserId() || '');
     setIsJoinModalOpen(true);
     setJoinInitialMode(mode === 'team' ? 'team' : 'solo');
+  };
+
+  const handleOpenDescription = (tournament) => {
+    setDescTournament(tournament);
+    setIsDescModalOpen(true);
   };
 
   const handleJoined = (tournamentId, mode = 'solo') => {
@@ -431,7 +458,7 @@ export function TournamentsPage() {
             </p>
           )}
 
-          {!isLoading && !error && filteredTournaments.map((tournament) => {
+          {!isLoading && !error && orderedTournaments.map((tournament) => {
             const tournamentKey = extractTournamentId(tournament);
             const isJoined = tournamentKey ? joinedTournamentIds.has(tournamentKey) : false;
             const status = (() => {
@@ -446,12 +473,14 @@ export function TournamentsPage() {
                 time={formatDate(getTournamentDate(tournament))}
                 title={tournament?.tournamentName || tournament?.gameName || 'Tournament'}
                 organizer={tournament?.organizerName || 'Organizer'}
-                gameMode={tournament?.tournamentCategory || tournament?.gameName || 'Wingman'}
+                gameMode={displayCategory(tournament?.tournamentCategory || tournament?.gameName || 'Wingman')}
                 prize={formatPrize(tournament?.tournamentPrize)}
+                hpReward={tournament?.hpReward}
                 slots={formatSlots(tournament?.totalJoined)}
                 isJoined={isJoined}
                 isExpired={status === 'COMPLETED'}
                 statusLabel={status === 'COMPLETED' ? 'Completed' : undefined}
+                onCardClick={() => handleOpenDescription(tournament)}
                 onJoinSolo={() => handleOpenJoinWithMode(tournament, 'solo')}
                 onCreateTeam={() => handleOpenJoinWithMode(tournament, 'team')}
                 isSoloJoined={tournamentKey ? soloJoinedIds.has(tournamentKey) : false}
@@ -525,6 +554,55 @@ export function TournamentsPage() {
         userId={joinUserId}
         initialMode={joinInitialMode}
       />
+
+      {/* Description Modal */}
+      {isDescModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4" role="dialog" aria-modal="true">
+          <div className="w-full max-w-xl bg-[#0f0f14] border border-[#222025] rounded-2xl p-6 shadow-xl">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-gray-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+                  {formatDate(getTournamentDate(descTournament))}
+                </p>
+                <h3 className="text-xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
+                  {descTournament?.tournamentName || descTournament?.gameName || 'Tournament'}
+                </h3>
+                <p className="text-sm text-gray-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+                  Organized by {descTournament?.organizerName || 'Organizer'}
+                </p>
+              </div>
+              <button
+                onClick={() => setIsDescModalOpen(false)}
+                className="text-gray-400 hover:text-white text-sm font-semibold"
+                aria-label="Close description"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2 text-sm text-gray-200" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+              <p className="text-gray-300 whitespace-pre-line">{descTournament?.description || 'No description available.'}</p>
+              <div className="grid grid-cols-2 gap-3 text-xs text-gray-400">
+                <span>Game Mode: <strong className="text-white">{displayCategory(descTournament?.tournamentCategory || descTournament?.gameName || 'N/A')}</strong></span>
+                <span>Prize: <strong className="text-white">{formatPrize(descTournament?.tournamentPrize)}</strong></span>
+                <span>HP Reward: <strong className="text-white">{descTournament?.hpReward ?? '—'}</strong></span>
+                <span>Joined: <strong className="text-white">{formatSlots(descTournament?.totalJoined)}</strong></span>
+                <span>Expiry: <strong className="text-white">{descTournament?.tournamentExpiry || 'TBD'}</strong></span>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => setIsDescModalOpen(false)}
+                className="px-4 py-2 rounded-lg bg-[#1a1a1f] border border-gray-700 text-gray-200 text-sm hover:border-gray-500"
+                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
