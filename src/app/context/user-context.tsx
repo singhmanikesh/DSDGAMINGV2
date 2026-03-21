@@ -64,13 +64,49 @@ export const axiosClient = axios;
 
 const getStoredUser = (): AuthUser | null => {
   if (typeof window === 'undefined') return null;
-  const raw = localStorage.getItem('dsd_user');
-  if (!raw) return null;
+
+  const rawUser = localStorage.getItem('dsd_user');
+  const storedAccessToken =
+    localStorage.getItem('dsd_access_token') || localStorage.getItem('accesstoken') || undefined;
+  const storedRefreshToken =
+    localStorage.getItem('dsd_refresh_token') || localStorage.getItem('refreshtoken') || undefined;
+  const storedId = localStorage.getItem('dsd_user_id');
+
+  if (!rawUser && !storedAccessToken && !storedRefreshToken && !storedId) return null;
+
   try {
-    return JSON.parse(raw) as AuthUser;
+    const parsedUser = rawUser
+      ? (JSON.parse(rawUser) as Partial<AuthUser> & { user?: { id?: string | number } })
+      : {};
+    return {
+      ...parsedUser,
+      id: parsedUser.id ?? parsedUser.user?.id ?? storedId,
+      accessToken: parsedUser.accessToken ?? storedAccessToken,
+      refreshToken: parsedUser.refreshToken ?? storedRefreshToken,
+    } as AuthUser;
   } catch (err) {
     console.error('Failed to parse stored user', err);
     return null;
+  }
+};
+
+const persistUser = (user: AuthUser | null) => {
+  if (typeof window === 'undefined' || !user) return;
+  try {
+    localStorage.setItem('dsd_user', JSON.stringify(user));
+    if (user.id !== undefined && user.id !== null) {
+      localStorage.setItem('dsd_user_id', String(user.id));
+    }
+    if (user.accessToken) {
+      localStorage.setItem('dsd_access_token', user.accessToken);
+      localStorage.setItem('accesstoken', user.accessToken);
+    }
+    if (user.refreshToken) {
+      localStorage.setItem('dsd_refresh_token', user.refreshToken);
+      localStorage.setItem('refreshtoken', user.refreshToken);
+    }
+  } catch (err) {
+    console.error('Failed to persist user', err);
   }
 };
 
@@ -97,9 +133,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const storedToken =
       user?.accessToken ||
       (typeof window !== 'undefined'
-        ? localStorage.getItem('dsd_access_token') || undefined
+        ? localStorage.getItem('dsd_access_token') || localStorage.getItem('accesstoken') || undefined
         : undefined);
 
+    if (user) persistUser(user);
     applyAuthHeader(storedToken);
   }, [user]);
 

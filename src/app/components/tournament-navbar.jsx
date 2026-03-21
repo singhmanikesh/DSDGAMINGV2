@@ -20,6 +20,8 @@ export function TournamentNavbar() {
     localStorage.removeItem('dsd_user_id');
     localStorage.removeItem('accesstoken');
     localStorage.removeItem('refreshtoken');
+    localStorage.removeItem('dsd_access_token');
+    localStorage.removeItem('dsd_refresh_token');
     setUser(null);
     window.location.href = '/tournaments';
   };

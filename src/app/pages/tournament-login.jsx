@@ -293,7 +293,7 @@ export function TournamentLoginPage() {
       const response = await axiosClient.post("/login", loginPayload);
 
       if (response.status === 200) {
-        const data = response.data;
+        const data = response.data || {};
 
         const accessToken = data.accesstoken;
         const refreshToken = data.refreshtoken;
@@ -303,6 +303,7 @@ export function TournamentLoginPage() {
 
         const storedUser = {
           ...userData,
+          id: userData.id ?? userData.userId ?? userData.user_id,
           accessToken,
           refreshToken,
           avatar: avatarValue,
@@ -314,14 +315,21 @@ export function TournamentLoginPage() {
                 userData.email || form.email
               ),
         };
+
         if (accessToken) {
           axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+          localStorage.setItem("dsd_access_token", accessToken);
+          localStorage.setItem("accesstoken", accessToken);
+        }
+        if (refreshToken) {
+          localStorage.setItem("dsd_refresh_token", refreshToken);
+          localStorage.setItem("refreshtoken", refreshToken);
+        }
+        if (storedUser.id !== undefined && storedUser.id !== null) {
+          localStorage.setItem("dsd_user_id", String(storedUser.id));
         }
 
         localStorage.setItem("dsd_user", JSON.stringify(storedUser));
-        if (accessToken) localStorage.setItem("dsd_access_token", accessToken);
-        if (refreshToken)
-          localStorage.setItem("dsd_refresh_token", refreshToken);
         setUser(storedUser);
 
         toast.success("Login successful.");
