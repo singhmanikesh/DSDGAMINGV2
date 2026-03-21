@@ -14,7 +14,7 @@ const getStoredUserId = () => {
     const raw = localStorage.getItem('dsd_user');
     if (raw) {
       const parsed = JSON.parse(raw);
-      const id = parsed?.id || parsed?.user?.id || parsed?.userId || parsed?.user_id;
+      const id = parsed?.id || parsed?.user?.id;
       if (id) {
         localStorage.setItem('dsd_user_id', String(id));
         return String(id);
@@ -35,26 +35,6 @@ const extractTournamentId = (tournament) => {
     tournament?.idTournament ??
     tournament?.id;
   return id === undefined || id === null ? null : String(id);
-};
-
-const loadJoinedIds = () => {
-  try {
-    const raw = localStorage.getItem('dsd_joined_tournament_ids');
-    if (!raw) return new Set();
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return new Set(parsed.map((v) => String(v)));
-    return new Set();
-  } catch (e) {
-    return new Set();
-  }
-};
-
-const persistJoinedIds = (ids) => {
-  try {
-    localStorage.setItem('dsd_joined_tournament_ids', JSON.stringify(Array.from(ids)));
-  } catch (e) {
-    // ignore
-  }
 };
 
 const getStoredGamerName = () => {
@@ -78,7 +58,7 @@ export function TournamentsPage() {
   const [isFiltering, setIsFiltering] = useState(false);
   const [error, setError] = useState('');
   const [page, setPage] = useState(0);
-  const [joinedTournamentIds, setJoinedTournamentIds] = useState(() => loadJoinedIds());
+  const [joinedTournamentIds, setJoinedTournamentIds] = useState(new Set());
   const [soloJoinedIds, setSoloJoinedIds] = useState(new Set());
   const [teamCreatedIds, setTeamCreatedIds] = useState(new Set());
   const [joinInitialMode, setJoinInitialMode] = useState('solo');
@@ -209,14 +189,13 @@ export function TournamentsPage() {
           ? joinedData.content
           : [];
 
-      const ids = new Set(joinedTournamentIds);
+      const ids = new Set();
       joinedItems.forEach((item) => {
         const key = extractTournamentId(item);
         if (key) ids.add(key);
       });
 
       setJoinedTournamentIds(ids);
-      persistJoinedIds(ids);
       setTournaments(items);
       setTotalPages(Number.isFinite(tournamentsData?.totalPages) ? tournamentsData.totalPages : 1);
       setTotalElements(
@@ -229,7 +208,7 @@ export function TournamentsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, pageSize, joinedTournamentIds]);
+  }, [page, pageSize]);
 
   useEffect(() => {
     let isMounted = true;
@@ -361,14 +340,12 @@ export function TournamentsPage() {
     setJoinedTournamentIds((prev) => {
       const next = new Set(prev);
       next.add(key);
-      persistJoinedIds(next);
       return next;
     });
     if (mode === 'solo') {
       setSoloJoinedIds((prev) => {
         const next = new Set(prev);
         next.add(key);
-        persistJoinedIds(next);
         return next;
       });
     }
@@ -376,7 +353,6 @@ export function TournamentsPage() {
       setTeamCreatedIds((prev) => {
         const next = new Set(prev);
         next.add(key);
-        persistJoinedIds(next);
         return next;
       });
     }
