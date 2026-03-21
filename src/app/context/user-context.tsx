@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
 export type RegisterForm = {
@@ -17,11 +17,18 @@ export type RegisterForm = {
 export type AuthMode = 'login' | 'register';
 
 export type AuthUser = {
-  id?: string;
+  id?: string | number;
   email: string;
   gamerName?: string;
+  gamername?: string;
   avatar?: string | null;
+  avatarUrl?: string | null;
   avatarInitials?: string | null;
+  accessToken?: string;
+  refreshToken?: string;
+  hp?: number;
+  riotId?: string;
+  steamId?: string;
 };
 
 type UserContextValue = {
@@ -55,9 +62,29 @@ const apiBaseUrl = (rawBase || '').replace(/\/$/, '');
 axios.defaults.baseURL = apiBaseUrl; ///
 export const axiosClient = axios;
 
+const getStoredUser = (): AuthUser | null => {
+  if (typeof window === 'undefined') return null;
+  const raw = localStorage.getItem('dsd_user');
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as AuthUser;
+  } catch (err) {
+    console.error('Failed to parse stored user', err);
+    return null;
+  }
+};
+
+const applyAuthHeader = (token?: string) => {
+  if (token) {
+    axiosClient.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete axiosClient.defaults.headers.common.Authorization;
+  }
+};
+
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [authMode, setAuthMode] = useState<AuthMode>('login');
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
   const [form, setForm] = useState<RegisterForm>(createDefaultForm);
 
   const updateField = <K extends keyof RegisterForm>(name: K, value: RegisterForm[K]) => {
@@ -65,6 +92,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   const resetForm = () => setForm(createDefaultForm());
+
+  useEffect(() => {
+    const storedToken =
+      user?.accessToken ||
+      (typeof window !== 'undefined'
+        ? localStorage.getItem('dsd_access_token') || undefined
+        : undefined);
+
+    applyAuthHeader(storedToken);
+  }, [user]);
 
   const value = useMemo(
     () => ({
