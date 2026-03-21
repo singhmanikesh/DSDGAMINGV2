@@ -27,7 +27,13 @@ const getStoredUserId = () => {
 };
 
 const extractTournamentId = (tournament) => {
-  const id = tournament?.tournamentId ?? tournament?.id;
+  const id =
+    tournament?.tournamentId ??
+    tournament?.tournamentID ??
+    tournament?.tournament_id ??
+    tournament?.tournamentid ??
+    tournament?.idTournament ??
+    tournament?.id;
   return id === undefined || id === null ? null : String(id);
 };
 
