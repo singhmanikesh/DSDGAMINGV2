@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserContext } from '../context/user-context';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import foxCharacter from '../../assets/fox charcter left to dsd logo.png';
 import dsdLogo from '../../assets/DSD logo nav bar.png';
@@ -10,6 +11,10 @@ export function Navbar() {
   const [offersDropdownOpen, setOffersDropdownOpen] = useState(false);
   const [mobileOffersOpen, setMobileOffersOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUserContext();
+  const isLoggedIn = Boolean(user);
+  const authCtaPath = isLoggedIn ? '/profile' : '/tournament/login';
+  const authCtaLabel = isLoggedIn ? 'Profile' : 'Register / Login';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -146,11 +151,11 @@ export function Navbar() {
 
             <div className="flex items-center gap-3">
               <Link
-                to="/tournament/login"
+                to={authCtaPath}
                 className="px-[14px] py-[9px] lg:px-[18px] lg:py-[10.5px] bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-semibold text-xs lg:text-sm uppercase tracking-wide hover:shadow-[0_0_18px_rgba(255,77,0,0.35)] transition-all duration-200"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
-                Register / Login
+                {authCtaLabel}
               </Link>
 
               <a
@@ -262,12 +267,12 @@ export function Navbar() {
                 Contact
               </a>
               <Link
-                to="/tournament/login"
+                to={authCtaPath}
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-5 py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:shadow-[0_0_20px_rgba(255,77,0,0.45)] transition-all duration-300 mt-2 text-center"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
-                Register / Login
+                {authCtaLabel}
               </Link>
 
               {/* Mobile CTA Button */}

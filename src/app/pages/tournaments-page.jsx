@@ -467,6 +467,9 @@ export function TournamentsPage() {
           {!isLoading && !error && orderedTournaments.map((tournament) => {
             const tournamentKey = extractTournamentId(tournament);
             const isJoined = tournamentKey ? joinedTournamentIds.has(tournamentKey) : false;
+            // Solo joins stay disabled when the user already joined; team creation is only disabled if they actually created a team.
+            const isSoloJoinedFlag = isJoined || (tournamentKey ? soloJoinedIds.has(tournamentKey) : false);
+            const hasCreatedTeamFlag = tournamentKey ? teamCreatedIds.has(tournamentKey) : false;
             const status = (() => {
               const now = new Date();
               const expiry = tournament?.tournamentExpiry ? new Date(tournament.tournamentExpiry) : null;
@@ -489,8 +492,8 @@ export function TournamentsPage() {
                 onCardClick={() => handleOpenDescription(tournament)}
                 onJoinSolo={() => handleOpenJoinWithMode(tournament, 'solo')}
                 onCreateTeam={() => handleOpenJoinWithMode(tournament, 'team')}
-                isSoloJoined={tournamentKey ? soloJoinedIds.has(tournamentKey) : false}
-                hasCreatedTeam={tournamentKey ? teamCreatedIds.has(tournamentKey) : false}
+                isSoloJoined={isSoloJoinedFlag}
+                hasCreatedTeam={hasCreatedTeamFlag}
               />
             );
           })}

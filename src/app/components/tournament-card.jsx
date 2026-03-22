@@ -77,16 +77,16 @@ export function TournamentCard({
           </div>
 
           {/* Prize */}
-          <div className="flex items-center gap-2 whitespace-nowrap sm:justify-self-end">
+          <div className="flex items-center gap-1.5 whitespace-nowrap sm:justify-self-end leading-none">
             {(typeof gameMode === 'string' && gameMode.toLowerCase().includes('wingman')) ? (
-              <span className="text-[#FF4D00] sm:w-[18px] sm:h-[18px] text-[16px] sm:text-[18px]">₹</span>
+              <span className="text-[#FF4D00] text-base sm:text-lg leading-none">₹</span>
             ) : prizeIcon ? (
               <img src={faceitLogo} alt="Prize" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
             ) : (
-              <span className="text-[#FF4D00] sm:w-[18px] sm:h-[18px] text-[16px] sm:text-[18px]">₹</span>
+              <span className="text-[#FF4D00] text-base sm:text-lg leading-none">₹</span>
             )}
             <span 
-              className="text-[#FF4D00] text-xs sm:text-sm"
+              className="text-[#FF4D00] text-sm sm:text-base leading-none"
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
             >
               {prize}
@@ -132,7 +132,7 @@ export function TournamentCard({
                   e.stopPropagation();
                   (onJoinSolo || onJoin)?.(e);
                 }}
-                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 cursor-pointer ${
                   isSoloJoined || isExpired
                     ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
                     : 'bg-[#FF4D00] text-white hover:bg-[#FF6A00] hover:shadow-[0_0_15px_rgba(255,77,0,0.4)]'
@@ -149,7 +149,7 @@ export function TournamentCard({
                   e.stopPropagation();
                   (onCreateTeam || onJoin)?.(e);
                 }}
-                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 cursor-pointer ${
                   hasCreatedTeam || isExpired
                     ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
                     : 'bg-[#27272a] text-gray-300 border border-gray-800 hover:bg-[#2a2a2f]'
