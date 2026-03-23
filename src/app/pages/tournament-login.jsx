@@ -6,6 +6,14 @@ import "react-image-crop/dist/ReactCrop.css";
 import tournamentLogo from "../../assets/tournnament.png";
 import { axiosClient, useUserContext } from "../context/user-context";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getEmailError = (value) => {
+  const trimmed = value.trim();
+  if (trimmed === "") return "";
+  return EMAIL_REGEX.test(trimmed) ? "" : "Invalid email address";
+};
+
 export function TournamentLoginPage() {
   const navigate = useNavigate();
   const { authMode, setAuthMode, form, updateField, resetForm, setUser } =
@@ -17,6 +25,8 @@ export function TournamentLoginPage() {
     gamerName: "",
     password: "",
   });
+  const [emailError, setEmailError] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
   const [tempAvatar, setTempAvatar] = useState(null); // raw upload preview
   const [crop, setCrop] = useState(null); // percent crop for UI
   const [completedCrop, setCompletedCrop] = useState(null); // pixel crop for save
@@ -87,6 +97,8 @@ export function TournamentLoginPage() {
       setAvatarError("");
       updateField("avatarFileName", "");
     }
+    setEmailError("");
+    setEmailTouched(false);
   }, [isRegister]);
 
   const handleChange = (e) => {
@@ -95,6 +107,17 @@ export function TournamentLoginPage() {
     if (isRegister && registerErrors[name]) {
       setRegisterErrors((prev) => ({ ...prev, [name]: "" }));
     }
+    if (name === "email" && (emailTouched || emailError)) {
+      setEmailError("");
+      if (isRegister) setRegisterErrors((prev) => ({ ...prev, email: "" }));
+    }
+  };
+
+  const handleEmailBlur = (value) => {
+    setEmailTouched(true);
+    const nextError = getEmailError(value);
+    setEmailError(nextError);
+    if (isRegister) setRegisterErrors((prev) => ({ ...prev, email: nextError }));
   };
 
   const getInitials = (name, email) => {
@@ -200,9 +223,20 @@ export function TournamentLoginPage() {
     e.preventDefault();
     if (isSubmitting) return;
 
+    const trimmedEmail = form.email.trim();
+    const emailValidationMessage =
+      trimmedEmail === "" ? "Email is required" : getEmailError(trimmedEmail);
+    if (emailValidationMessage) {
+      setEmailTouched(true);
+      setEmailError(emailValidationMessage);
+      if (isRegister) {
+        setRegisterErrors((prev) => ({ ...prev, email: emailValidationMessage }));
+      }
+    }
+
     if (isRegister) {
       const nextErrors = {
-        email: form.email ? "" : "Email is required",
+        email: emailValidationMessage,
         gamerName: form.gamerName ? "" : "Gamer name is required",
         password: form.password ? "" : "Password is required",
       };
@@ -210,7 +244,8 @@ export function TournamentLoginPage() {
       const hasError = Object.values(nextErrors).some(Boolean);
       if (hasError) return;
     } else {
-      if (!form.email || !form.password) {
+      if (emailValidationMessage) return;
+      if (!form.password) {
         toast.error("Email and password are required");
         return;
       }
@@ -381,25 +416,42 @@ export function TournamentLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {isRegister ? (
               <>
-                <div className="grid grid-cols-1 gap-4">
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-2">
-                      Email{" "}
-                      <span className="text-xs text-red-400">*</span>
-                    </label>
-                    <input
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]"
-                    />
-                    {registerErrors.email && (
-                      <p className="mt-1 text-xs text-red-400">
-                        {registerErrors.email}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                {(() => {
+                  const emailHasValue = form.email.trim() !== "";
+                  const emailValid = emailHasValue && EMAIL_REGEX.test(form.email.trim());
+                  const showError = registerErrors.email || emailError;
+
+                  return (
+                    <div className="grid grid-cols-1 gap-4">
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-2">
+                          Email{" "}
+                          <span className="text-xs text-red-400">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          onBlur={() => handleEmailBlur(form.email)}
+                          aria-invalid={!!showError}
+                          className={`w-full px-3 py-2 rounded-md bg-[#0b0b0f] border ${
+                            showError
+                              ? "border-red-500 focus:border-red-500"
+                              : emailTouched && emailHasValue && emailValid
+                                ? "border-green-500 focus:border-green-500"
+                                : "border-[#222]"
+                          }`}
+                        />
+                        {showError && (
+                          <p className="mt-1 text-xs text-red-400">
+                            {registerErrors.email || emailError}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -498,32 +550,52 @@ export function TournamentLoginPage() {
               </>
             ) : (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-2">
-                      Email
-                    </label>
-                    <input
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]"
-                    />
-                  </div>
+                {(() => {
+                  const emailHasValue = form.email.trim() !== "";
+                  const emailValid = emailHasValue && EMAIL_REGEX.test(form.email.trim());
+                  const showError = emailError !== "";
 
-                  <div>
-                    <label className="block text-sm text-gray-300 mb-2">
-                      Password
-                    </label>
-                    <input
-                      name="password"
-                      type="password"
-                      value={form.password}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]"
-                    />
-                  </div>
-                </div>
+                  return (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-2">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          onBlur={() => handleEmailBlur(form.email)}
+                          aria-invalid={showError}
+                          className={`w-full px-3 py-2 rounded-md bg-[#0b0b0f] border ${
+                            showError
+                              ? "border-red-500 focus:border-red-500"
+                              : emailTouched && emailHasValue && emailValid
+                                ? "border-green-500 focus:border-green-500"
+                                : "border-[#222]"
+                          }`}
+                        />
+                        {showError && (
+                          <p className="mt-1 text-xs text-red-400">{emailError}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-gray-300 mb-2">
+                          Password
+                        </label>
+                        <input
+                          name="password"
+                          type="password"
+                          value={form.password}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 rounded-md bg-[#0b0b0f] border border-[#222]"
+                        />
+                      </div>
+                    </div>
+                  );
+                })()}
               </>
             )}
 

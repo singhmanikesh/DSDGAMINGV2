@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Navbar } from '../components/navbar';
 import { Footer } from '../components/footer';
@@ -9,6 +9,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import birthdayImage from '../../assets/bday.png';
 import { submitContactForm } from '../utils/contact-api';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getEmailError = (value) => {
+  const trimmed = value.trim();
+  if (trimmed === '') return '';
+  return EMAIL_REGEX.test(trimmed) ? '' : 'Invalid email address';
+};
+
 export function BirthdayPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -17,6 +25,8 @@ export function BirthdayPage() {
     message: '',
     consent: false,
   });
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
 
   const carouselImages = [
     'https://images.unsplash.com/photo-1700701982617-cdc730361997?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
@@ -49,8 +59,20 @@ export function BirthdayPage() {
     ]
   };
 
+  const isEmailValid = useMemo(() => EMAIL_REGEX.test(formData.email.trim()), [formData.email]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const trimmedEmail = formData.email.trim();
+    const emailValidationMessage = trimmedEmail === '' ? 'Email is required' : getEmailError(trimmedEmail);
+
+    if (emailValidationMessage) {
+      setEmailTouched(true);
+      setEmailError(emailValidationMessage);
+      return;
+    }
+
     if (!formData.consent) {
       toast.error('Please consent to the processing of personal data');
       return;
@@ -78,6 +100,10 @@ export function BirthdayPage() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'email') {
+      if (!emailTouched) setEmailTouched(true);
+      setEmailError(getEmailError(value));
+    }
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -236,9 +262,15 @@ export function BirthdayPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2.5 border border-gray-200 bg-white focus:border-[#FF4D00] focus:outline-none transition-all text-sm"
+                    aria-invalid={!!emailError}
+                    className={`w-full px-3 py-2.5 border ${emailError ? 'border-red-500 focus:border-red-500' : emailTouched && isEmailValid ? 'border-green-500 focus:border-green-500' : 'border-gray-200 focus:border-[#FF4D00]'} bg-white focus:outline-none transition-all text-sm`}
                     style={{ fontFamily: 'Montserrat, sans-serif' }}
                   />
+                  {emailError && (
+                    <p className="mt-1 text-xs text-red-600" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      {emailError}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -309,7 +341,7 @@ export function BirthdayPage() {
                 <div className="pt-3">
                   <button
                     type="submit"
-                    disabled={!formData.consent || isSubmitting}
+                    disabled={!formData.consent || isSubmitting || !isEmailValid}
                     className={`px-8 py-2 border-2 border-[#FF4D00] text-[#FF4D00] rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-[#FF4D00] hover:text-white'}`}
                     style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                   >

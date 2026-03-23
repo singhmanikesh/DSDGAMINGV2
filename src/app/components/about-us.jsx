@@ -36,6 +36,7 @@ export function AboutUs() {
             <ImageWithFallback
               src="https://lh3.googleusercontent.com/p/AF1QipNQtEbx7yi6Sw5Wa0FeVODwX7bnMNZCH7rM2nhD=s680-w680-h510-rw"
               alt="Gaming Setup"
+              fallbackSrc={dsdReceptionImage}
               className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-lg"
             />
           </div>

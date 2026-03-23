@@ -3,6 +3,14 @@ import { toast } from 'sonner';
 import contactDoodle from '../../assets/fox charcter left to dsd logos.png';
 import { submitContactForm } from '../utils/contact-api';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getEmailError = (value) => {
+  const trimmed = value.trim();
+  if (trimmed === '') return '';
+  return EMAIL_REGEX.test(trimmed) ? '' : 'Invalid email address';
+};
+
 export function ServiceContactForm({ serviceName, pricing = [] }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,19 +21,32 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
     consent: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const isEmailValid = useMemo(() => EMAIL_REGEX.test(formData.email.trim()), [formData.email]);
 
   const canSubmit = useMemo(() => {
     return (
       formData.name.trim() !== '' &&
-      formData.email.trim() !== '' &&
+      isEmailValid &&
       formData.topic.trim() !== '' &&
       formData.consent &&
       !isSubmitting
     );
-  }, [formData.consent, formData.email, formData.name, formData.topic, isSubmitting]);
+  }, [formData.consent, formData.name, formData.topic, isEmailValid, isSubmitting]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const trimmedEmail = formData.email.trim();
+    const emailValidationMessage = trimmedEmail === '' ? 'Email is required' : getEmailError(trimmedEmail);
+
+    if (emailValidationMessage) {
+      setEmailTouched(true);
+      setEmailError(emailValidationMessage);
+      return;
+    }
 
     if (!canSubmit) {
       toast.error('Please complete required fields and consent.');
@@ -54,11 +75,21 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'email') {
+      if (!emailTouched) setEmailTouched(true);
+      setEmailError(getEmailError(value));
+    }
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
   };
+
+  const emailBorderClass = emailError
+    ? 'border-red-500 focus:border-red-500'
+    : emailTouched && isEmailValid
+      ? 'border-green-500 focus:border-green-500'
+      : 'border-gray-300 focus:border-[#FF4D00]';
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10">
@@ -120,9 +151,15 @@ export function ServiceContactForm({ serviceName, pricing = [] }) {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#FF4D00] focus:outline-none transition-colors"
+            aria-invalid={!!emailError}
+            className={`w-full px-4 py-3 border-2 ${emailBorderClass} rounded-lg focus:outline-none transition-colors`}
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           />
+          {emailError && (
+            <p className="mt-1 text-xs text-red-600" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              {emailError}
+            </p>
+          )}
         </div>
 
         {/* Topic */}
