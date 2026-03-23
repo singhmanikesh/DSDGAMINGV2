@@ -81,14 +81,14 @@ export function TournamentNavbar() {
                 <div className="flex items-center gap-3">
                   <Link
                     to="/profile"
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white border border-transparent shadow-[0_0_18px_rgba(255,77,0,0.35)] hover:shadow-[0_0_22px_rgba(255,106,0,0.45)] transition-all"
+                    className="flex items-center gap-2 px-0 py-0 rounded-full text-white transition-all"
                     aria-label="Open profile"
                   >
-                    <span className="relative inline-flex h-10 w-10 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                    <span className="relative inline-flex h-12 w-12 rounded-full overflow-hidden">
                       {avatarSrc ? (
                         <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
                       ) : (
-                        <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                        <span className="flex h-full w-full items-center justify-center text-white font-bold text-base">
                           {avatarInitial}
                         </span>
                       )}
@@ -122,15 +122,15 @@ export function TournamentNavbar() {
                     <>
                       <Link
                         to="/profile"
-                        className="flex items-center gap-3 text-left text-white font-bold uppercase py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] shadow-[0_0_18px_rgba(255,77,0,0.35)]"
+                        className="flex items-center gap-3 text-left text-white font-bold uppercase py-3 px-4 rounded-xl"
                         onClick={() => setMobileOpen(false)}
                         aria-label="Open profile"
                       >
-                        <span className="relative inline-flex h-11 w-11 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                        <span className="relative inline-flex h-12 w-12 rounded-full overflow-hidden">
                           {avatarSrc ? (
                             <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
                           ) : (
-                            <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                            <span className="flex h-full w-full items-center justify-center text-white font-bold text-base">
                               {avatarInitial}
                             </span>
                           )}

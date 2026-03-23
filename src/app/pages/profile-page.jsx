@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import tournamentLogo from "../../assets/tournnament.png";
 import dsdProfileLogo from "../../assets/DSD logo profile.png";
-import { axiosClient } from "../context/user-context";
+import { axiosClient, useUserContext } from "../context/user-context";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog";
 
 const getStoredUserId = () => {
   const cached = localStorage.getItem("dsd_user_id");
@@ -23,20 +35,27 @@ const getStoredUserId = () => {
 };
 
 export function ProfilePage() {
-  const [user, setUser] = useState(null);
+  const { user: ctxUser, setUser: setCtxUser } = useUserContext();
+  const [user, setUser] = useState(ctxUser || null);
   const [pastTournaments, setPastTournaments] = useState([]);
   const [isLoadingPast, setIsLoadingPast] = useState(false);
   const [pastError, setPastError] = useState("");
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
   const avatarSrc = user?.avatarUrl || user?.avatar || null;
 
   useEffect(() => {
+    if (ctxUser) {
+      setUser(ctxUser);
+      return;
+    }
+
     try {
       const raw = localStorage.getItem("dsd_user");
       if (raw) setUser(JSON.parse(raw));
     } catch (e) {
       setUser(null);
     }
-  }, []);
+  }, [ctxUser]);
 
   useEffect(() => {
     const fetchPast = async () => {
@@ -68,6 +87,18 @@ export function ProfilePage() {
 
     fetchPast();
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("dsd_user");
+    localStorage.removeItem("dsd_user_id");
+    localStorage.removeItem("accesstoken");
+    localStorage.removeItem("refreshtoken");
+    localStorage.removeItem("dsd_access_token");
+    localStorage.removeItem("dsd_refresh_token");
+    setCtxUser(null);
+    setUser(null);
+    toast.success("Logged out successfully");
+  };
 
   if (!user) {
     return (
@@ -102,9 +133,9 @@ export function ProfilePage() {
       </header>
 
       <main className="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-[#0f0f14] border border-[#222025] rounded-2xl p-6 sm:p-10 shadow-lg">
+        <div className="rounded-2xl p-6 sm:p-10">
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#111] border border-gray-700 overflow-hidden flex-shrink-0 flex items-center justify-center text-2xl font-bold text-gray-200">
+            <div className="w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center text-2xl font-bold text-gray-200">
               {avatarSrc ? (
                 <img
                   src={avatarSrc}
@@ -112,7 +143,9 @@ export function ProfilePage() {
                   className="w-full h-full object-cover object-center"
                 />
               ) : user.avatarInitials ? (
-                <span>{user.avatarInitials}</span>
+                <span className="w-full h-full flex items-center justify-center text-white font-bold">
+                  {user.avatarInitials}
+                </span>
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
                   No Avatar
@@ -125,6 +158,10 @@ export function ProfilePage() {
               <p className="text-sm text-gray-400">
                 Steam ID:{" "}
                 <span className="text-white font-semibold">{user.steamId}</span>
+              </p>
+              <p className="text-sm text-gray-400">
+                Riot ID:{" "}
+                <span className="text-white font-semibold">{user.riotId || "N/A"}</span>
               </p>
               <p className="text-sm text-gray-400">
                 HP:{" "}
@@ -173,7 +210,10 @@ export function ProfilePage() {
               <p className="text-red-400">{pastError}</p>
             )}
             {!isLoadingPast && !pastError && pastTournaments.length === 0 && (
-              <p className="text-gray-400">You have not completed any tournaments.</p>
+              <div className="text-gray-200 space-y-1">
+                <p className="font-semibold">No tournaments yet</p>
+                <p className="text-gray-400 text-sm">Start playing and join your first tournament!</p>
+              </div>
             )}
             {!isLoadingPast && !pastError && pastTournaments.length > 0 && (
               <ul className="space-y-3">
@@ -204,13 +244,42 @@ export function ProfilePage() {
           <hr className="my-6 border-gray-800" />
 
           <section>
-            <h3 className="text-lg font-bold mb-3">Change Password</h3>
-            <a
-              href="/profile/change-password"
-              className="inline-block px-4 py-2 bg-[#FF4D00] rounded-md font-bold"
-            >
-              Change Password
-            </a>
+            <h3 className="text-lg font-bold mb-3">Account Settings</h3>
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+              <a
+                href="/profile/change-password"
+                className="inline-block px-4 py-2 bg-[#FF4D00] rounded-md font-bold text-center"
+              >
+                Change Password
+              </a>
+
+              <AlertDialog open={isLogoutConfirmOpen} onOpenChange={setIsLogoutConfirmOpen}>
+                <AlertDialogTrigger asChild>
+                  <button className="inline-block px-4 py-2 rounded-md font-bold text-center bg-red-600 hover:bg-red-700 text-white transition-colors">
+                    Logout
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-[#0f0f14] border border-[#222025] text-white">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-gray-300">
+                      You will need to log in again to access your tournaments and account details.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="border border-[#2a2a2f] bg-transparent text-white hover:bg-[#1a1a1f]">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </section>
         </div>
       </main>
