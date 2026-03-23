@@ -1,19 +1,14 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import tournamentLogo from '../../assets/tournnament.png';
-import { useState, useEffect } from 'react';
+import { useUserContext } from '../context/user-context';
 
 export function TournamentNavbar() {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useUserContext();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('dsd_user');
-      if (raw) setUser(JSON.parse(raw));
-    } catch (e) {
-      setUser(null);
-    }
-  }, []);
+  const avatarSrc = user?.avatarUrl || user?.avatar || null;
+  const avatarInitial = (user?.gamerName || user?.gamername || user?.email || '').slice(0, 1).toUpperCase() || 'P';
 
   const handleLogout = () => {
     localStorage.removeItem('dsd_user');
@@ -83,19 +78,31 @@ export function TournamentNavbar() {
             )}
 
             {user && (
-              <div className="flex items-center gap-3">
-                <Link to="/profile" className="text-sm text-white font-semibold">
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="px-3 py-2 bg-[#1a1a1f] text-[#FF4D00] rounded-full font-semibold text-sm border border-[#26262B] hover:bg-[#26262B] transition-all"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+                <div className="flex items-center gap-3">
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white border border-transparent shadow-[0_0_18px_rgba(255,77,0,0.35)] hover:shadow-[0_0_22px_rgba(255,106,0,0.45)] transition-all"
+                    aria-label="Open profile"
+                  >
+                    <span className="relative inline-flex h-10 w-10 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                      {avatarSrc ? (
+                        <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
+                      ) : (
+                        <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                          {avatarInitial}
+                        </span>
+                      )}
+                    </span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-3 py-2 bg-[#1a1a1f] text-[#FF4D00] rounded-full font-semibold text-sm border border-[#26262B] hover:bg-[#26262B] transition-all"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
           </div>
         
           {/* Mobile Menu */}
@@ -113,7 +120,23 @@ export function TournamentNavbar() {
 
                   {user && (
                     <>
-                      <Link to="/profile" className="block w-full text-left text-[#FF4D00] font-bold uppercase py-3" onClick={() => setMobileOpen(false)}>Profile</Link>
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-3 text-left text-white font-bold uppercase py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] shadow-[0_0_18px_rgba(255,77,0,0.35)]"
+                        onClick={() => setMobileOpen(false)}
+                        aria-label="Open profile"
+                      >
+                        <span className="relative inline-flex h-11 w-11 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                          {avatarSrc ? (
+                            <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
+                          ) : (
+                            <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                              {avatarInitial}
+                            </span>
+                          )}
+                        </span>
+                        <span className="text-sm text-white normal-case">Profile</span>
+                      </Link>
                       <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="block w-full text-left text-[#FF4D00] font-bold uppercase py-3">Logout</button>
                     </>
                   )}

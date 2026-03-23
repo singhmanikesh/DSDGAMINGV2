@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import tournamentLogo from "../../assets/tournnament.png";
+import dsdProfileLogo from "../../assets/DSD logo profile.png";
 import { axiosClient } from "../context/user-context";
 
 const getStoredUserId = () => {
@@ -89,8 +90,15 @@ export function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
-      <header className="pt-6 pb-8 flex items-center justify-center">
-        <img src={tournamentLogo} alt="Tournament" className="h-16 w-auto" />
+      <header className="pt-6 pb-8 flex items-center justify-center gap-4">
+        <img src={tournamentLogo} alt="Tournament" className="h-16 w-auto object-contain" />
+        <span className="text-white text-xl font-bold">X</span>
+        <img
+          src={dsdProfileLogo}
+          alt="DSD"
+          className="w-auto object-contain"
+          style={{ height: '105px' }}
+        />
       </header>
 
       <main className="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 py-12">

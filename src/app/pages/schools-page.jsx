@@ -134,37 +134,54 @@ export function SchoolsPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking for a unique educational experience that combines learning with gaming, <span className="font-semibold">our school programs are designed for educational institutions</span> wanting to introduce students to esports and competitive gaming.
+                  Celebrate with Chill Lounge – ₹500. Perfect for students to unwind with food, fun, and non-stop gaming in a safe, supervised environment.
                 </p>
                 <p>
-                  We offer tailored workshops and training sessions that teach teamwork, strategic thinking, and digital literacy through gaming. Our professional coaches guide students through the fundamentals of esports while maintaining a focus on education and healthy gaming habits.
+                  Step up to Esports Lounge – ₹800. Ideal for gamers, friends, and unforgettable school events with a premium setup and plenty of play time.
                 </p>
               </div>
 
-              {/* Pricing Box */}
-              <div className="bg-[#FF4D00] text-white p-6 mb-8">
-                <h3 
-                  className="text-lg uppercase mb-4"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-                >
-                  SCHOOL PROGRAM – PLN 25/student/hour
-                </h3>
-                <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <li>• Professional gaming equipment for all students</li>
-                  <li>• Supervised gaming sessions</li>
-                  <li>• Educational workshops on gaming industry</li>
-                  <li>• Team-building exercises</li>
-                  <li>• Strategic thinking development</li>
-                  <li>• Digital literacy training</li>
-                  <li>• Safe and controlled environment</li>
-                  <li>• Certified instructors</li>
-                  <li>• Refreshments included</li>
-                  <li>• Flexible scheduling options</li>
-                </ul>
+              {/* Pricing Boxes */}
+              <div className="space-y-4 mb-8">
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3 
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    🎉 Chill Lounge – ₹500
+                  </h3>
+                  <p className="text-sm mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Celebrate your special day with food, fun, and non-stop gaming!
+                  </p>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• Fries + Popcorn Chicken / Popcorn Paneer</li>
+                    <li>• Veg Burger / Non-Veg Burger</li>
+                    <li>• Refreshing Cooler</li>
+                    <li>• 6 Hours PC Gaming or 4 Hours PlayStation 5</li>
+                  </ul>
+                </div>
+
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3 
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    🎮 Esports Lounge – ₹800
+                  </h3>
+                  <p className="text-sm mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Perfect for gamers, friends, and unforgettable birthday vibes!
+                  </p>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• Fries + Popcorn Chicken / Popcorn Paneer</li>
+                    <li>• Veg Burger / Non-Veg Burger</li>
+                    <li>• Refreshing Cooler</li>
+                    <li>• 6 Hours PC Gaming or 4 Hours PlayStation 5</li>
+                  </ul>
+                </div>
               </div>
 
               <p className="text-sm text-gray-700 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Our facility is designed to provide a safe, educational environment where students can explore the world of esports under professional guidance. Perfect for field trips, after-school programs, or special events!
+                Create an engaging school outing with supervised gaming, great food, and a premium lounge experience.
               </p>
             </div>
 

@@ -5,7 +5,7 @@ import birthdayImage from '../../assets/bday.png';
 import schoolImage from '../../assets/school.png';
 import spaceRentalImage from '../../assets/space rental.png';
 import streamingImage from '../../assets/streaming.png';
-import boardGamesImage from '../../assets/boardgames.png';
+import snookerImage from '../../assets/boardgames.png';
 
 export function Offers() {
   const navigate = useNavigate();
@@ -78,12 +78,12 @@ export function Offers() {
     },
     {
       id: 6,
-      title: 'BOARD GAMES',
-      path: '/board-games',
+      title: 'SNOOKER',
+      path: '/snooker',
       illustration: (
         <img 
-          src={boardGamesImage} 
-          alt="Board Games" 
+          src={snookerImage} 
+          alt="Snooker" 
           className="w-full max-w-[360px] h-auto object-contain transform scale-[0.7] sm:scale-100 sm:w-[252px] sm:h-[198px]"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />

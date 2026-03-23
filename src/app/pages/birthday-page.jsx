@@ -134,49 +134,54 @@ export function BirthdayPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking for the perfect way to celebrate an unforgettable birthday for a gaming fan, our offer is perfect! A <span className="font-semibold">birthday party at our gaming center guarantees great fun</span> and complete immersion in the world of gaming.
+                  Looking for a space where teamwork, focus, and performance come together? Our bootcamp is designed for players who want to train, compete, and grow in a comfortable yet high-performance environment.
                 </p>
                 <p>
-                  In specially prepared zones, gamers can compete against each other on the latest hardware and play popular titles. Whether your birthday child prefers action, racing, or strategy games, we can tailor the event to their preferences and skills.
+                  At DSD Gaming, you get access to the latest technology, professional-grade gaming stations, and a setup built for seamless team coordination. Whether you're grinding ranked, preparing for tournaments, or just playing with your squad, our space is engineered for uninterrupted, high-level gameplay.
+                </p>
+                <p>
+                  What sets us apart is the balance between intensity and comfort. When it's time to reset, step into our in-house cafe—unwind, refuel with great food, and strategize your next move with your team.
+                </p>
+                <p>
+                  Train harder. Play smarter. Win together.
                 </p>
               </div>
 
               {/* Pricing Boxes */}
               <div className="space-y-4 mb-8">
                 <div className="bg-[#FF4D00] text-white p-6">
-                  <h3 
+                  <h3
                     className="text-lg uppercase mb-4"
                     style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                   >
-                    Junior Gamer – PLN 140/person
+                    🎉 Chill Lounge – ₹900
                   </h3>
+                  <p className="text-sm mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Celebrate your special day with food, fun, and non-stop gaming!
+                  </p>
                   <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    <li>• Fries + nuggets (5 pcs.)</li>
-                    <li>• Lemonade in a carafe x2</li>
-                    <li>• Nachos</li>
-                    <li>• Chips</li>
-                    <li>• Sticks</li>
-                    <li>• Cake service</li>
-                    <li>• 3 hours PC</li>
+                    <li>• Fries + Popcorn Chicken / Popcorn Paneer</li>
+                    <li>• Veg Burger / Non-Veg Burger</li>
+                    <li>• Refreshing Cooler</li>
+                    <li>• 6 Hours PC Gaming or 4 Hours PlayStation 5</li>
                   </ul>
                 </div>
 
                 <div className="bg-[#FF4D00] text-white p-6">
-                  <h3 
+                  <h3
                     className="text-lg uppercase mb-4"
                     style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
                   >
-                    LOOT Box – PLN 220/person
+                    🎮 Esports Lounge – ₹1200
                   </h3>
+                  <p className="text-sm mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Perfect for gamers, friends, and unforgettable birthday vibes!
+                  </p>
                   <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    <li>• Garrit of Rivus + Fries</li>
-                    <li>• Slushy 260 ml</li>
-                    <li>• Lemonade in carafe no limits</li>
-                    <li>• Nachos</li>
-                    <li>• Chips</li>
-                    <li>• Sticks</li>
-                    <li>• Cake service</li>
-                    <li>• 4 hours of PC/console gameplay</li>
+                    <li>• Fries + Popcorn Chicken / Popcorn Paneer</li>
+                    <li>• Veg Burger / Non-Veg Burger</li>
+                    <li>• Refreshing Cooler</li>
+                    <li>• 6 Hours PC Gaming or 4 Hours PlayStation 5</li>
                   </ul>
                 </div>
               </div>

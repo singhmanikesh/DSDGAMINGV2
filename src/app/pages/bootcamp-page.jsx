@@ -134,35 +134,60 @@ export function BootcampPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking for a place where you can spend time engaging in intense teamwork in a comfortable environment, our <span className="font-semibold">bootcamp is the perfect space for you and your friends!</span> We offer the latest technology, professional gaming stations, and a comfortable space to have fun together.
+                  Looking for a space where teamwork, focus, and performance come together? Our bootcamp is designed for players who want to train, compete, and grow in a comfortable yet high-performance environment.
                 </p>
                 <p>
-                  In our bootcamp, you can fully focus on your game – uninterrupted and in the best possible environment. Kinguin breaks from the competition, we offer a food court where you can relax, enjoy a delicious meal, and discuss tactics for the upcoming matches over a refreshing lemonade.
+                  At DSD Gaming, you get access to the latest technology, professional-grade gaming stations, and a setup built for seamless team coordination. Whether you're grinding ranked, preparing for tournaments, or just playing with your squad, our space is engineered for uninterrupted, high-level gameplay.
+                </p>
+                <p>
+                  What sets us apart is the balance between intensity and comfort. When it's time to reset, step into our in-house cafe—unwind, refuel with great food, and strategize your next move with your team.
+                </p>
+                <p>
+                  Train harder. Play smarter. Win together.
                 </p>
               </div>
 
-              {/* Pricing Box */}
-              <div className="bg-[#FF4D00] text-white p-6 mb-8">
-                <h3 
-                  className="text-lg uppercase mb-4"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-                >
-                  BOOTCAMP PACKAGE – PLN 285/person
-                </h3>
-                <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <li>• The Bootcamp package includes 5 hours of gaming for each participant.</li>
-                  <li>• Party Board (fries, dippers, prezzutela stick, chicken nuggets, chicken pops, sauces) appropriate to the number of people Nachos with cheese sauce, jalapeños.</li>
-                  <li>• Pizza – 1 pc / person from the standard offer</li>
-                  <li>• A wide selection of craft beers</li>
-                  <li>• Carbonated drinks (Coca Cola, Coca Cola Zero, Sprite, Fanta)</li>
-                  <li>• Crappy Jankes (Orange and Apple)</li>
-                  <li>• Carbonated and still water</li>
-                  <li>• Homemade Ice Tea Slushy</li>
-                  <li>• Lemon Lemonade</li>
-                  <li>• Hot drinks</li>
-                  <li>• Non-alcoholic Martini Vibrante Tonic</li>
-                  <li>• Drinks: Vodka/Rum/Whisky: Jagermeister/Gin + Soft, Pepsi & Tonic, Bombay & Tonic, Whisky Sour, Vodka Sour, Cuba Libre, Jagermeister, Aperol Spritz, Frozen Cocktails</li>
-                </ul>
+              {/* Pricing Boxes */}
+              <div className="space-y-4 mb-8">
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3 
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    🎮 Bounty Bootcamp – Esports Lounge
+                  </h3>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li><span className="font-semibold">Day Bootcamp</span> — Duration: 8 Hours</li>
+                    <li className="pl-4">• 1 Starter of choice</li>
+                    <li className="pl-4">• 1 Soda of choice</li>
+                    <li className="pl-4">• Noodles</li>
+                    <li>Price: ₹800</li>
+                    <li className="pt-2"><span className="font-semibold">LAN Bootcamp</span> — Offer: Come as 5, pay for 4</li>
+                    <li className="pl-4">• Rate: ₹130 per person per hour</li>
+                    <li className="pt-2"><span className="font-semibold">Offers</span></li>
+                    <li className="pl-4">• More than 2 hours: Get 1 starter free for each person</li>
+                    <li className="pl-4">• More than 5 hours: Get 1 starter of choice + 1 soda of choice for each person</li>
+                  </ul>
+                </div>
+
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3 
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    ❄️ Chill Lounge
+                  </h3>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li><span className="font-semibold">Day Chillz</span> — Duration: 8 Hours PC</li>
+                    <li className="pl-4">• 1 Starter of choice</li>
+                    <li>Price: ₹640</li>
+                    <li className="pt-2"><span className="font-semibold">LAN Chill</span> — Offer: Come as 5, pay for 4</li>
+                    <li className="pl-4">• Rate: ₹100 per person per hour</li>
+                    <li className="pt-2"><span className="font-semibold">Offers</span></li>
+                    <li className="pl-4">• More than 2 hours: Get 1 soda of choice for each person</li>
+                    <li className="pl-4">• More than 5 hours: Get 1 starter of choice + 1 soda of choice for each person</li>
+                  </ul>
+                </div>
               </div>
 
               <p className="text-sm text-gray-700 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>

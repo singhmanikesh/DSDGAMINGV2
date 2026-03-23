@@ -57,15 +57,15 @@ export function AboutUs() {
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               <p>
-                Welcome to DSD Gaming – a premium esports lounge that combines a passion for competitive gaming with cutting-edge technology and a cinematic atmosphere. We're a place created by gamers for gamers, designed for those who demand the absolute best gaming experience.
-              </p>
-              
-              <p>
-                Whether you're training for championships, competing in daily tournaments, or enjoying casual play with friends, DSD Gaming provides the professional infrastructure and competitive environment you need. Our mission is to deliver world-class gaming experiences and build a community united by a passion for esports excellence.
+                DSD Gaming is a premium esports lounge built by gamers for gamers, where high-performance technology meets an immersive, cinematic environment. We exist to redefine what a gaming cafe can be and deliver an elite experience for players who expect nothing but the best.
               </p>
 
               <p>
-                Join a community where skill meets opportunity, where every match matters, and where gaming reaches its full competitive potential.
+                At the core of DSD Gaming is our commitment to cutting-edge performance. We feature powerful custom-built systems equipped with Ryzen 7 9800X3D processors and RTX 4070 Super graphics, engineered exclusively for competitive gaming and peak performance.
+              </p>
+
+              <p>
+                DSD Gaming is a hub for ambition, talent, and the future of esports. Our mission is to nurture and empower the next generation of professional gamers, giving players in India a platform to train, compete, and rise to national and international prominence. This is where passion meets performance and where champions are made.
               </p>
             </div>
           </div>
@@ -84,30 +84,33 @@ export function AboutUs() {
               style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
             >
               <div>
-                <h5 className="font-bold text-[#0B0B0F] mb-2">1. Professional Gaming Hardware:</h5>
+                <h5 className="font-bold text-[#0B0B0F] mb-2">1. Professional-Grade Gaming Hardware</h5>
                 <p>
-                  Experience gaming at its peak with over 50 high-end gaming stations featuring RTX 40-series GPUs, 240Hz high-refresh monitors, mechanical keyboards, and pro-grade peripherals from Razer, Logitech G, and SteelSeries. Every station is optimized for competitive performance.
+                  Experience gaming at its absolute peak with over 50 high-performance stations powered by RTX 40-series GPUs. Each setup features ultra-high refresh rate BenQ monitors (360Hz & 400Hz), precision mechanical keyboards, and pro-grade peripherals from Razer, Logitech G, and Cybeart chairs. Every detail is optimized to deliver a competitive edge.
                 </p>
               </div>
 
               <div>
-                <h5 className="font-bold text-[#0B0B0F] mb-2">2. Daily Tournaments & Competitions:</h5>
+                <h5 className="font-bold text-[#0B0B0F] mb-2">2. Daily Tournaments & Competitive Rewards</h5>
                 <p>
-                  Compete in daily tournaments across League of Legends, Valorant, CS2, Dota 2, and more. Our competitive infrastructure includes prize pools, ranking systems, live streaming setups, and pathways to professional esports careers.
+                  Step into a dynamic competitive ecosystem with our daily tournaments and challenges, featured on the DSD Bounty Board. Compete across top titles like League of Legends, Valorant, CS2, and Dota 2 to complete quests, climb the ranks, and earn rewards.
+                </p>
+                <p className="mt-2">
+                  HP Points can be redeemed for gaming hours, in-house cafe items, and more. DSD Coins unlock exclusive gaming peripherals and premium gear.
                 </p>
               </div>
 
               <div>
-                <h5 className="font-bold text-[#0B0B0F] mb-2">3. Premium Gaming Environment:</h5>
+                <h5 className="font-bold text-[#0B0B0F] mb-2">3. Premium Gaming Environment</h5>
                 <p>
-                  Immerse yourself in our dark, cinematic atmosphere designed for focus and performance. High-speed fiber internet, climate-controlled gaming zones, and acoustic optimization ensure you play at your best.
+                  Immerse yourself in a dark, cinematic setting designed for focus and performance. With high-speed fiber internet, climate-controlled zones, and acoustically optimized interiors, every element is engineered to elevate your gameplay experience.
                 </p>
               </div>
 
               <div>
-                <h5 className="font-bold text-[#0B0B0F] mb-2">4. Events & Community:</h5>
+                <h5 className="font-bold text-[#0B0B0F] mb-2">4. Events & Community</h5>
                 <p>
-                  DSD Gaming isn't just a gaming cafe – it's a hub for the esports community. From bootcamps and corporate team-building to birthday parties and viewing parties, we create unforgettable competitive gaming experiences.
+                  DSD Gaming is more than a gaming lounge—it’s a thriving esports community hub. From intensive bootcamps and corporate team-building sessions to birthday celebrations and live viewing parties, we create high-energy experiences that bring gamers together.
                 </p>
               </div>
             </div>

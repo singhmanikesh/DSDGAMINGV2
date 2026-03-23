@@ -6,10 +6,10 @@ import { FloatingBar } from '../components/floating-bar';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import boardGamesImage from '../../assets/boardgames.png';
+import snookerImage from '../../assets/boardgames.png';
 import { submitContactForm } from '../utils/contact-api';
 
-export function BoardGamesPage() {
+export function SnookerPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,7 +20,6 @@ export function BoardGamesPage() {
 
   const carouselImages = [
     'https://images.unsplash.com/photo-1766228271509-da13a0d2b6b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-    'https://images.unsplash.com/photo-1700701982617-cdc730361997?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
     'https://images.unsplash.com/photo-1758410473735-c76baff30a79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
   ];
 
@@ -34,20 +33,12 @@ export function BoardGamesPage() {
     autoplaySpeed: 3000,
     arrows: true,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        }
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-        }
-      }
-    ]
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
+    ],
   };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +51,7 @@ export function BoardGamesPage() {
       const response = await submitContactForm({
         name: formData.name,
         email: formData.email,
-        topic: formData.topic || 'Board Games',
+        topic: formData.topic || 'Snooker',
         message: formData.message || '',
         consent: formData.consent,
       });
@@ -68,28 +59,25 @@ export function BoardGamesPage() {
       toast.success(response?.message || 'Contact form submitted successfully');
       setFormData({ name: '', email: '', topic: '', message: '', consent: false });
     } catch (error) {
-      console.error('Board games contact form failed:', error);
+      console.error('Snooker contact form failed:', error);
       toast.error('There was a problem submitting the form. Please try again.');
-    }
-    finally {
+    } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      
+
       {/* Image Carousel */}
       <section className="pt-24 md:pt-28 pb-8 bg-[#F5F5F5]">
         <div className="max-w-[1200px] mx-auto px-4">
@@ -97,9 +85,9 @@ export function BoardGamesPage() {
             {carouselImages.map((img, index) => (
               <div key={index} className="px-2">
                 <div className="w-full h-[200px] md:h-[250px] overflow-hidden">
-                  <img 
-                    src={img} 
-                    alt={`Board Games ${index + 1}`}
+                  <img
+                    src={img}
+                    alt={`Snooker ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -119,14 +107,14 @@ export function BoardGamesPage() {
                 className="text-4xl md:text-5xl text-[#0B0B0F] mb-8 uppercase"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
               >
-                BOARD GAMES
+                SNOOKER
               </h1>
 
               {/* Character Doodle */}
               <div className="mb-8">
-                <img 
-                  src={boardGamesImage} 
-                  alt="Board Games Character" 
+                <img
+                  src={snookerImage}
+                  alt="Snooker"
                   className="w-full max-w-[200px] h-auto object-contain"
                 />
               </div>
@@ -134,39 +122,35 @@ export function BoardGamesPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking for <span className="font-semibold">a break from digital gaming</span>, our board game collection offers hundreds of classic and modern tabletop games for all ages and skill levels.
+                  Switch gears and sink your next shot in our Snooker Lounge. Premium tables, pro lighting, and a calm, focused vibe make it the perfect spot for casual frames, practice sessions, or league nights.
                 </p>
                 <p>
-                  From strategic euro-games to party favorites, our extensive library includes everything from Catan and Ticket to Ride to Cards Against Humanity and Dungeons & Dragons. Perfect for casual hangouts, game nights, or discovering new favorites with friends.
+                  Everything’s set up for smooth play: levelled cloth, quality cues and chalk, and space to move. Bring friends or teammates and enjoy a refined, competition-ready experience.
                 </p>
               </div>
 
               {/* Pricing Box */}
-              <div className="bg-[#FF4D00] text-white p-6 mb-8">
-                <h3 
-                  className="text-lg uppercase mb-4"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-                >
-                  BOARD GAME PACKAGE – PLN 20/person/hour
-                </h3>
-                <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <li>• Access to 200+ board games library</li>
-                  <li>• Comfortable gaming tables with seating</li>
-                  <li>• Game master assistance and recommendations</li>
-                  <li>• Rules explanation for new games</li>
-                  <li>• Classic games: Monopoly, Risk, Catan, Carcassonne</li>
-                  <li>• Party games: Cards Against Humanity, Exploding Kittens</li>
-                  <li>• Strategy games: Pandemic, Terraforming Mars, Wingspan</li>
-                  <li>• Deck-building games: Dominion, Star Realms</li>
-                  <li>• RPG sessions: D&D, Pathfinder (game master available)</li>
-                  <li>• Card games: Magic: The Gathering, Poker</li>
-                  <li>• Unlimited coffee, tea, and soft drinks</li>
-                  <li>• Snack bar available</li>
-                </ul>
+              <div className="space-y-4 mb-8">
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    Snooker Packages
+                  </h3>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• ₹400/hour — Reserved table (up to 4 players)</li>
+                    <li>• ₹1,000 — 3-hour block with priority booking</li>
+                    <li>• ₹500 — Coaching add-on (per session)</li>
+                    <li>• Premium cues, chalk, bridge, and clean cloth included</li>
+                    <li>• Pro lighting and leveled tables for consistent play</li>
+                    <li>• Beverages and bites available from the in-house cafe</li>
+                  </ul>
+                </div>
               </div>
 
               <p className="text-sm text-gray-700 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Our board game lounge provides a relaxed atmosphere perfect for socializing, strategizing, and enjoying tabletop gaming at its finest. No experience necessary – we'll teach you any game!
+                Line up your best break—book a table and enjoy a focused, competition-ready snooker experience.
               </p>
             </div>
 
@@ -176,7 +160,7 @@ export function BoardGamesPage() {
                 className="text-xl uppercase tracking-wide text-[#0B0B0F] mb-6"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
               >
-                Discover tabletop gaming
+                Book your snooker slot
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -279,9 +263,7 @@ export function BoardGamesPage() {
                     </label>
                   </div>
                   <p className="text-[9px] text-gray-500 leading-relaxed pl-5" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    I consent to the processing of my personal data by the data controller{' '}
-                    <span className="font-semibold">DSD GAMING</span> for the purpose of responding to 
-                    my inquiry.
+                    I consent to the processing of my personal data by the data controller <span className="font-semibold">DSD GAMING</span> for the purpose of responding to my inquiry.
                   </p>
                 </div>
 

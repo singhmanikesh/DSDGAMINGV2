@@ -7,7 +7,7 @@ import { BirthdayPage } from './pages/birthday-page.jsx';
 import { SchoolsPage } from './pages/schools-page.jsx';
 import { SpaceRentalPage } from './pages/space-rental-page.jsx';
 import { StreamingPage } from './pages/streaming-page.jsx';
-import { BoardGamesPage } from './pages/board-games-page.jsx';
+import { SnookerPage } from './pages/snooker-page.jsx';
 import { NotFoundPage } from './pages/not-found.jsx';
 import { UnderConstructionPage } from './pages/under-construction.jsx';
 import { TournamentLoginPage } from './pages/tournament-login.jsx';
@@ -60,8 +60,8 @@ export const router = createBrowserRouter([
     element: <StreamingPage />,
   },
   {
-    path: "/board-games",
-    element: <BoardGamesPage />,
+    path: "/snooker",
+    element: <SnookerPage />,
   },
   {
     path: "/under-construction",

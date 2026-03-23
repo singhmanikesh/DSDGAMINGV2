@@ -89,7 +89,7 @@ export function StreamingPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      
+
       {/* Image Carousel */}
       <section className="pt-24 md:pt-28 pb-8 bg-[#F5F5F5]">
         <div className="max-w-[1200px] mx-auto px-4">
@@ -97,8 +97,8 @@ export function StreamingPage() {
             {carouselImages.map((img, index) => (
               <div key={index} className="px-2">
                 <div className="w-full h-[200px] md:h-[250px] overflow-hidden">
-                  <img 
-                    src={img} 
+                  <img
+                    src={img}
                     alt={`Streaming ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
@@ -124,9 +124,9 @@ export function StreamingPage() {
 
               {/* Character Doodle */}
               <div className="mb-8">
-                <img 
-                  src={streamingImage} 
-                  alt="Streaming Character" 
+                <img
+                  src={streamingImage}
+                  alt="Streaming Character"
                   className="w-full max-w-[200px] h-auto object-contain"
                 />
               </div>
@@ -134,39 +134,41 @@ export function StreamingPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking to <span className="font-semibold">create professional-quality gaming content</span>, our streaming facilities offer everything you need to broadcast your gameplay to the world with studio-grade equipment.
+                  Level up your gaming content with our fully equipped, studio-grade streaming facilities—designed to help you broadcast like a pro. Whether you’re just starting out or already building your audience, our dedicated streaming booths give you access to everything you need for high-quality live streams, content creation, or tournament broadcasting.
                 </p>
                 <p>
-                  Whether you're an aspiring streamer or established content creator, we provide dedicated streaming booths with professional cameras, lighting, green screens, and powerful encoding PCs. Perfect for live streams, content creation, or tournament broadcasting.
+                  Create, stream, and share your gameplay with the quality your audience deserves. Focus on your content—we’ll handle the tech.
                 </p>
               </div>
 
               {/* Pricing Box */}
-              <div className="bg-[#FF4D00] text-white p-6 mb-8">
-                <h3 
-                  className="text-lg uppercase mb-4"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-                >
-                  STREAMING PACKAGE – PLN 80/hour
-                </h3>
-                <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <li>• Professional streaming booth</li>
-                  <li>• High-end gaming PC + dedicated encoding PC</li>
-                  <li>• Professional webcam (1080p 60fps)</li>
-                  <li>• Studio lighting setup</li>
-                  <li>• Green screen background</li>
-                  <li>• Professional microphone with boom arm</li>
-                  <li>• Stream deck for easy control</li>
-                  <li>• Pre-configured OBS/Streamlabs setup</li>
-                  <li>• Ultra-fast internet (1Gbps upload)</li>
-                  <li>• Soundproofed environment</li>
-                  <li>• Technical support on-site</li>
-                  <li>• Optional: Video editing workstation</li>
-                </ul>
+              <div className="space-y-4 mb-8">
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    Streaming Package – ₹200/hour
+                  </h3>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• Private, professional streaming booth</li>
+                    <li>• High-end gaming PC with dedicated encoding system</li>
+                    <li>• 1080p 60fps professional webcam</li>
+                    <li>• Studio-grade lighting setup</li>
+                    <li>• Green screen background for custom visuals</li>
+                    <li>• Professional microphone with boom arm</li>
+                    <li>• Stream Deck for seamless control</li>
+                    <li>• Pre-configured OBS/Streamlabs setup</li>
+                    <li>• Ultra-fast 1Gbps upload internet</li>
+                    <li>• Soundproof environment for clean audio</li>
+                    <li>• On-site technical support</li>
+                    <li>• Optional add-on: Video editing workstation</li>
+                  </ul>
+                </div>
               </div>
 
               <p className="text-sm text-gray-700 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Our streaming facilities are designed for creators who want professional results without the hassle of setting up their own studio. Stream to Twitch, YouTube, or any platform with confidence!
+                Create, stream, and share your gameplay with the quality your audience deserves.
               </p>
             </div>
 

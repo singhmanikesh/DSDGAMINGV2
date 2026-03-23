@@ -13,8 +13,10 @@ export function Navbar() {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const isLoggedIn = Boolean(user);
+  const avatarSrc = user?.avatarUrl || user?.avatar || null;
+  const avatarInitial = (user?.gamerName || user?.gamername || user?.email || '').slice(0, 1).toUpperCase() || 'P';
   const authCtaPath = isLoggedIn ? '/profile' : '/tournament/login';
-  const authCtaLabel = isLoggedIn ? 'Profile' : 'Register / Login';
+  const authCtaLabel = 'Register / Login';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +33,7 @@ export function Navbar() {
     { name: 'Schools', path: '/schools' },
     { name: 'Space Rental', path: '/space-rental' },
     { name: 'Streaming', path: '/streaming' },
-    { name: 'Board Games', path: '/board-games' },
+    { name: 'Snooker', path: '/snooker' },
   ];
 
   const handleHomeClick = () => {
@@ -150,13 +152,35 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Link
-                to={authCtaPath}
-                className="px-[14px] py-[9px] lg:px-[18px] lg:py-[10.5px] bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-semibold text-xs lg:text-sm uppercase tracking-wide hover:shadow-[0_0_18px_rgba(255,77,0,0.35)] transition-all duration-200"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-              >
-                {authCtaLabel}
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white border border-transparent shadow-[0_0_18px_rgba(255,77,0,0.35)] hover:shadow-[0_0_22px_rgba(255,106,0,0.45)] transition-all duration-200"
+                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  aria-label="Open profile"
+                >
+                  <span className="relative inline-flex h-10 w-10 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                    {avatarSrc ? (
+                      <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                        {avatarInitial}
+                      </span>
+                    )}
+                  </span>
+                  <span className="hidden xl:inline text-white text-xs uppercase tracking-wide">
+                    {user?.gamerName || user?.gamername || 'Profile'}
+                  </span>
+                </Link>
+              ) : (
+                <Link
+                  to={authCtaPath}
+                  className="px-[14px] py-[9px] lg:px-[18px] lg:py-[10.5px] bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-semibold text-xs lg:text-sm uppercase tracking-wide hover:shadow-[0_0_18px_rgba(255,77,0,0.35)] transition-all duration-200"
+                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                >
+                  {authCtaLabel}
+                </Link>
+              )}
 
               <a
                 href="http://wa.me/919538585761"
@@ -266,14 +290,37 @@ export function Navbar() {
               >
                 Contact
               </a>
-              <Link
-                to={authCtaPath}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-5 py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:shadow-[0_0_20px_rgba(255,77,0,0.45)] transition-all duration-300 mt-2 text-center"
-                style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-              >
-                {authCtaLabel}
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white shadow-[0_0_18px_rgba(255,77,0,0.35)]"
+                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                >
+                  <span className="relative inline-flex h-11 w-11 rounded-full overflow-hidden border border-white/30 bg-[#1a1a1f]">
+                    {avatarSrc ? (
+                      <img src={avatarSrc} alt="User avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="flex h-full w-full items-center justify-center text-white font-bold text-sm">
+                        {avatarInitial}
+                      </span>
+                    )}
+                  </span>
+                  <div className="flex flex-col items-start">
+                    <span className="text-white text-sm">{user?.gamerName || user?.gamername || 'Profile'}</span>
+                    <span className="text-white/80 text-xs uppercase tracking-wide">View profile</span>
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  to={authCtaPath}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-5 py-3 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm uppercase tracking-wide hover:shadow-[0_0_20px_rgba(255,77,0,0.45)] transition-all duration-300 mt-2 text-center"
+                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                >
+                  {authCtaLabel}
+                </Link>
+              )}
 
               {/* Mobile CTA Button */}
               <a

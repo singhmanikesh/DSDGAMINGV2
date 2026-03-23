@@ -134,38 +134,64 @@ export function SpaceRentalPage() {
               {/* Description */}
               <div className="space-y-4 text-sm text-gray-700 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p>
-                  If you're looking for <span className="font-semibold">a modern venue for your corporate event, tournament, or private gathering</span>, our space rental service offers premium facilities with state-of-the-art gaming equipment.
+                  Premium Gaming Venue for Events & Experiences. Looking for a modern, high-energy venue for your next corporate event, esports tournament, or private gathering? Our premium space rental service offers cutting-edge gaming facilities designed to deliver an unforgettable experience.
                 </p>
                 <p>
-                  Our versatile space can accommodate various events – from esports tournaments and LAN parties to corporate team-building activities and product launches. With professional equipment, high-speed internet, and customizable layouts, we provide everything you need for a successful event.
+                  From competitive tournaments and LAN parties to team-building sessions and product launches, our versatile venue adapts to your needs—backed by professional-grade equipment and full technical support.
                 </p>
               </div>
 
               {/* Pricing Box */}
-              <div className="bg-[#FF4D00] text-white p-6 mb-8">
-                <h3 
-                  className="text-lg uppercase mb-4"
-                  style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
-                >
-                  SPACE RENTAL PACKAGE – FROM PLN 500/hour
-                </h3>
-                <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <li>• Full venue access with up to 50 gaming stations</li>
-                  <li>• Professional gaming PCs and consoles</li>
-                  <li>• High-speed fiber internet connection</li>
-                  <li>• Audio/visual equipment for presentations</li>
-                  <li>• Dedicated event coordinator</li>
-                  <li>• Customizable seating arrangements</li>
-                  <li>• Streaming and broadcasting equipment</li>
-                  <li>• Lounge and breakout areas</li>
-                  <li>• Optional catering services</li>
-                  <li>• On-site technical support</li>
-                  <li>• Flexible time slots (minimum 4 hours)</li>
-                </ul>
+              <div className="space-y-4 mb-8">
+                <div className="bg-[#FF4D00] text-white p-6">
+                  <h3 
+                    className="text-lg uppercase mb-4"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    💼 Space Rental Packages
+                  </h3>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>₹10,000 – 6 Hours</li>
+                    <li>₹18,000 – Full Day Rental</li>
+                  </ul>
+
+                  <h4 
+                    className="text-sm uppercase mt-6 mb-3"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    🚀 What’s Included
+                  </h4>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• Full venue access with up to 15 gaming stations</li>
+                    <li>• High-performance gaming PCs and consoles</li>
+                    <li>• Ultra-fast fiber internet connectivity</li>
+                    <li>• Professional audio/visual setup for presentations</li>
+                    <li>• Dedicated event coordinator</li>
+                    <li>• Flexible & customizable seating arrangements</li>
+                    <li>• Streaming & broadcasting equipment</li>
+                    <li>• Comfortable lounge and breakout zones</li>
+                    <li>• Optional catering services</li>
+                    <li>• On-site technical support team</li>
+                    <li>• Flexible booking (minimum 4 hours)</li>
+                  </ul>
+
+                  <h4 
+                    className="text-sm uppercase mt-6 mb-3"
+                    style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}
+                  >
+                    🎯 Perfect For
+                  </h4>
+                  <ul className="space-y-2 text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <li>• Esports tournaments & gaming events</li>
+                    <li>• Corporate team-building sessions</li>
+                    <li>• Product launches & brand activations</li>
+                    <li>• Private parties & exclusive gatherings</li>
+                  </ul>
+                </div>
               </div>
 
               <p className="text-sm text-gray-700 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Whether you're hosting a competitive tournament, corporate event, or exclusive private party, our premium gaming venue provides the perfect setting with professional-grade equipment and full support staff!
+                Create an event that stands out. With premium infrastructure and seamless support, we provide everything you need to make it a success.
               </p>
             </div>
 
