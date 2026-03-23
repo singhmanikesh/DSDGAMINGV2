@@ -1,7 +1,7 @@
 import { Check, Zap, Snowflake, Monitor, Users, Gift, Target, Gamepad2, Clock } from 'lucide-react';
 
 export function Pricing() {
-  // Launch Day Promos Pricing (13th-15th March)
+  // Launch Day Promos Pricing (3rd-4th April)
   const launchPromoEsports = [
     { duration: '1 Hr Bootcamp', regular: 'Rs. 150', promo: 'Rs. 75', bundle: null },
     { duration: '3 Hr Bootcamp', regular: 'Rs. 390', promo: 'Rs. 195', bundle: 'Soda of Choice' },
@@ -316,7 +316,7 @@ export function Pricing() {
           </div>
         </div>
 
-        {/* LAUNCH DAY PROMOS - 13TH MARCH TO 15TH MARCH */}
+        {/* LAUNCH DAY PROMOS - 3RD APRIL TO 4TH APRIL */}
         <div className="mb-16 md:mb-20">
           <div className="text-center mb-8">
             <div className="inline-block bg-gradient-to-r from-[#FF4D00] via-red-600 to-[#FF4D00] p-1 rounded-full mb-4 animate-pulse">
@@ -330,7 +330,7 @@ export function Pricing() {
               </div>
             </div>
             <p className="text-[#FF4D00] text-lg font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}>
-              13th March - 15th March
+              3rd April - 4th April
             </p>
             <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
               Pre-Register for 50% OFF on all PC Gamepasses
@@ -376,7 +376,7 @@ export function Pricing() {
 
           {/* Chill Lounge Launch Pricing - Two Sections */}
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
-            {/* 13th March */}
+            {/* 3rd April */}
             <div className="bg-gradient-to-r from-cyan-400 to-blue-600 p-1 rounded-2xl">
               <div className="bg-white rounded-xl p-6">
                 <div className="text-center mb-4">

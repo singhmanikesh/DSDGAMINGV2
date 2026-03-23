@@ -16,12 +16,20 @@ export function PreRegisterModal({ isOpen, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    if (!validateEmail(formData.email)) {
+      setEmailError('Please enter a valid email.');
+      return;
+    }
 
     setIsSubmitting(true);
     setErrorMessage('');
@@ -44,11 +52,34 @@ export function PreRegisterModal({ isOpen, onClose }) {
     }
   };
 
+  const toSentenceCase = (str) =>
+    str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
   const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    if (name === 'name') {
+      value = toSentenceCase(value);
+    }
+
+    if (name === 'phone') {
+      // Remove all non-digit characters
+      value = value.replace(/\D/g, '');
+      // Prepend +91 if not present
+      if (!value.startsWith('91')) {
+        value = '91' + value;
+      }
+      value = '+'.concat(value);
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    if (name === 'email') {
+      setEmailError(value && !validateEmail(value) ? 'Please enter a valid email.' : '');
+    }
   };
 
   return (
@@ -220,6 +251,11 @@ export function PreRegisterModal({ isOpen, onClose }) {
                       style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
                       placeholder="your.email@example.com"
                     />
+                    {emailError && (
+                      <p className="mt-2 text-sm text-red-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
+                        {emailError}
+                      </p>
+                    )}
                   </div>
 
                   <div>
