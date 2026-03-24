@@ -159,7 +159,7 @@ export function PreRegisterModal({ isOpen, onClose }) {
                     OFF on all PC Gamepasses
                   </p>
                   <p className="text-[#A0A0A0] text-xs text-center mt-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Valid on launch days (13th-15th March)
+                    Valid on launch days (03rd-5th April)
                   </p>
                 </div>
                 <div className="bg-black/40 backdrop-blur-sm border border-[#FF4D00]/30 rounded-xl p-4 hover:border-[#FF4D00] transition-all duration-300">
