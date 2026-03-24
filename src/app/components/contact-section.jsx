@@ -246,9 +246,9 @@ export function ContactSection() {
               </h3>
               <div className="space-y-1.5 text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 <p className="text-xs">DSD PREMIUM GAMING</p>
-                <p className="text-xs">46/3, Kalinga Rao Rd, Sampangi Rama Nagara</p>
+                <p className="text-xs">546, 5, Langford Rd, opposite to HOCKEY STADIUM, Shanti Nagar</p>
                 <p className="text-xs">Bengaluru, Karnataka 560027</p>
-                <p className="text-xs">Phone: +91 95385 85761</p>
+                <p className="text-xs">Phone: +91 776600 78282</p>
                 <p className="text-xs">management@dsdpremiumgaming.com</p>
               </div>
             </div>
