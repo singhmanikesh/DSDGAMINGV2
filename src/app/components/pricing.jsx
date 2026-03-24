@@ -384,7 +384,7 @@ export function Pricing() {
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>20th March Only</p>
+                  <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>03rd April Only</p>
                 </div>
                 
                 <div className="space-y-3">
@@ -412,7 +412,7 @@ export function Pricing() {
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>21st & 22nd March</p>
+                  <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>03rd & 4th April</p>
                 </div>
                 
                 <div className="space-y-3">
@@ -459,7 +459,7 @@ export function Pricing() {
               DIRECT WALK-IN <span className="text-[#FF4D00]">OFFERS</span>
             </h3>
             <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
-              Special pricing for immediate bookings (35% OFF PC Gamepasses) — <strong className="font-bold">Valid 20/03/26</strong>
+              Special pricing for immediate bookings (35% OFF PC Gamepasses) — <strong className="font-bold">Valid 03/04/26</strong>
             </p>
           </div>
 

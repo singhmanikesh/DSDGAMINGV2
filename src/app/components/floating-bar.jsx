@@ -26,7 +26,7 @@ export function FloatingBar() {
         <div className="flex items-center justify-center gap-2 sm:gap-4">
           {/* Call Us */}
           <a
-            href="tel:+919538585761"
+            href="tel:+917760078282"
             className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-[#141419] text-white rounded-full font-semibold hover:bg-[#26262B] hover:text-[#FF4D00] transition-all duration-300 border border-[#26262B] hover:border-[#FF4D00] text-xs sm:text-base"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
           >

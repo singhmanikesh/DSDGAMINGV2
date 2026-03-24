@@ -40,7 +40,7 @@ export function Footer() {
               />
             </a>
             <a
-              href="https://wa.me/919538585761" // replace with your number
+              href="https://wa.me/917760078282" // replace with your number
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#141419] border border-[#26262B] flex items-center justify-center hover:border-[#25D366] hover:bg-[#25D366]/20 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all duration-300 group"
