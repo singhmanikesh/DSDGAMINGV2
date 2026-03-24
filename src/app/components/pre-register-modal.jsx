@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { X, Sparkles } from 'lucide-react';
-
-// Endpoint can be overridden via Vite env var `VITE_PRE_REGISTER_API`
-//const PRE_REGISTER_API = "https://pregdsd-production-6cb1.up.railway.app/records";
+ 
+// new backend url 
 const PRE_REGISTER_API = "https://pre-registration-backend-production.up.railway.app/records";
-
 
 export function PreRegisterModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
