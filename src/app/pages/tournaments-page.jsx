@@ -6,7 +6,6 @@ import { FilterModal } from '../components/filter-modal';
 import { JoinTournamentModal } from '../components/join-tournament-modal';
 import { SlidersHorizontal } from 'lucide-react';
 import { axiosClient, useUserContext } from '../context/user-context';
-import ComingSoon from '../components/coming-soon';
 
 const getStoredUserId = () => {
   const cached = localStorage.getItem('dsd_user_id');
@@ -381,7 +380,7 @@ export function TournamentsPage() {
           </p>
         </div>
 
-        {/* Tabs
+        {/* Tabs */}
         <div className="flex gap-4 sm:gap-8 border-b border-gray-800 mb-6 sm:mb-8">
           <button
             className="relative pb-3 sm:pb-4 text-[#FF4D00] text-xs sm:text-sm uppercase tracking-wide border-b-2 border-[#FF4D00]"
@@ -396,14 +395,9 @@ export function TournamentsPage() {
           >
             MY TOURNAMENTS
           </button>
-        </div> */}
-
-        {/* Coming Soon after headline and tabs */}
-        <div className="flex items-center justify-center my-8">
-          <ComingSoon />
         </div>
 
-        {/* Filters
+        {/* Filters */}
         <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8 overflow-x-auto pb-2">
           {gameModes.map((mode) => (
             <button
@@ -445,10 +439,10 @@ export function TournamentsPage() {
               {filterSummary}
             </span>
           )}
-        </div> */}
+        </div>
 
         {/* Tournament List */}
-        {/* <div className="space-y-3 sm:space-y-4 pb-8 sm:pb-12">
+        <div className="space-y-3 sm:space-y-4 pb-8 sm:pb-12">
           {(isLoading || isFiltering) && (
             <p className="text-gray-400" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}>
               {isLoading ? 'Loading tournaments...' : 'Applying filters...'}
@@ -500,10 +494,10 @@ export function TournamentsPage() {
               />
             );
           })}
-        </div> */}
+        </div>
 
         {/* Pagination */}
-        {/* <div className="flex justify-center items-center gap-1 sm:gap-2 pb-12 sm:pb-16">
+        <div className="flex justify-center items-center gap-1 sm:gap-2 pb-12 sm:pb-16">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
@@ -546,7 +540,7 @@ export function TournamentsPage() {
           >
             »
           </button>
-        </div> */}
+        </div>
       </div>
 
       {/* Filter Modal */}
@@ -567,7 +561,7 @@ export function TournamentsPage() {
         initialMode={joinInitialMode}
       />
 
-      Description Modal
+      {/* Description Modal */}
       {isDescModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4" role="dialog" aria-modal="true">
           <div className="w-full max-w-xl bg-[#0f0f14] border border-[#222025] rounded-2xl p-6 shadow-xl">
