@@ -325,22 +325,22 @@ export function Pricing() {
                   className="text-2xl md:text-3xl text-[#0B0B0F] uppercase"
                   style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
                 >
-                  🎉 LAUNCH DAY PROMOS 🎉
+                   Pricing  
                 </h3>
               </div>
             </div>
-            <p className="text-[#FF4D00] text-lg font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}>
+            {/* <p className="text-[#FF4D00] text-lg font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700 }}>
               17th April - 19th April
-            </p>
-            <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
+            </p> */}
+            {/* <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
               Pre-Register for 50% OFF on all PC Gamepasses
-            </p>
+            </p> */}
           </div>
 
           {/* Esports Lounge Launch Pricing */}
-          <div className="max-w-6xl mx-auto mb-8">
+          <div className="max-w-5xl mx-auto mb-8">
             <div className="bg-gradient-to-r from-red-600 to-black p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-6">
+              <div className="bg-white rounded-xl p-5">
                 <div className="flex items-center justify-center gap-2 mb-6">
                   <Zap className="text-red-600" size={24} fill="red" />
                   <h4 className="text-xl md:text-2xl text-[#0B0B0F] uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
@@ -354,7 +354,7 @@ export function Pricing() {
                       <tr className="border-b-2 border-red-600">
                         <th className="text-left p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Duration</th>
                         <th className="text-center p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Regular Price</th>
-                        <th className="text-center p-3 text-red-600 font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Launch Price</th>
+                        {/* <th className="text-center p-3 text-red-600 font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Launch Price</th> */}
                         <th className="text-left p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Bundle Details</th>
                       </tr>
                     </thead>
@@ -362,9 +362,9 @@ export function Pricing() {
                       {launchPromoEsports.map((row, idx) => (
                         <tr key={idx} className="border-b border-gray-200">
                           <td className="p-3 text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</td>
-                          <td className="p-3 text-center text-[#666666] line-through text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</td>
-                          <td className="p-3 text-center text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</td>
-                          <td className="p-3 text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle || '-'}</td>
+                          <td className="p-3 text-center text-black font-black text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</td>
+                          {/* <td className="p-3 text-center text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</td> */}
+                          <td className="p-3 text-[#666666] text-md" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle || '-'}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -375,16 +375,16 @@ export function Pricing() {
           </div>
 
           {/* Chill Lounge Launch Pricing - Two Sections */}
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
             {/* 3rd April */}
             <div className="bg-gradient-to-r from-cyan-400 to-blue-600 p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-6">
+              <div className="bg-white rounded-xl p-5">
                 <div className="text-center mb-4">
                   <Snowflake className="inline-block text-cyan-600 mb-2" size={24} />
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>17th April Only</p>
+                  {/* <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>17th April Only</p> */}
                 </div>
                 
                 <div className="space-y-3">
@@ -395,7 +395,7 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
+                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
                         <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
                       </div>
                     </div>
@@ -406,13 +406,13 @@ export function Pricing() {
 
             {/* 14th & 15th March */}
             <div className="bg-gradient-to-r from-blue-600 to-cyan-400 p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-6">
+              <div className="bg-white rounded-xl p-5">
                 <div className="text-center mb-4">
                   <Snowflake className="inline-block text-blue-600 mb-2" size={24} />
                   <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     CHILL LOUNGE
                   </h4>
-                  <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>17th & 18th April</p>
+                  {/* <p className="text-blue-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>17th & 18th April</p> */}
                 </div>
                 
                 <div className="space-y-3">
@@ -423,7 +423,7 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
+                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
                         <p className="text-blue-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
                       </div>
                     </div>
@@ -482,7 +482,7 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
+                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
                         <p className="text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.walkIn}</p>
                       </div>
                     </div>
@@ -509,7 +509,7 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-[#666666] line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
+                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
                         <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.walkIn}</p>
                       </div>
                     </div>

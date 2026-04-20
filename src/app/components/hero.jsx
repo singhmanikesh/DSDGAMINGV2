@@ -62,14 +62,14 @@ export function Hero() {
               >
                 View Tournaments
               </button>
-              
-              <button
+                    {/* // closing pre registration  */}
+              {/* <button
                 onClick={() => setIsPreRegisterModalOpen(true)}
                 className="px-4 md:px-5 lg:px-6 py-3 sm:py-3.5 bg-gradient-to-r from-[#FF4D00] to-[#FF6A00] text-white rounded-full font-bold text-sm sm:text-base md:text-lg hover:shadow-[0_0_22px_rgba(255,77,0,0.5)] transition-all duration-300 transform hover:scale-105"
                 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 500 }}
               >
                 Pre-Register Now
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
