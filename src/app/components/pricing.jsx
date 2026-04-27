@@ -337,66 +337,27 @@ export function Pricing() {
             </p> */}
           </div>
 
-          {/* Esports Lounge Launch Pricing */}
-          <div className="max-w-5xl mx-auto mb-8">
+          {/* Chill Lounge Launch Pricing - Two Sections */}
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+            {/* Esports Lounge */}
             <div className="bg-gradient-to-r from-red-600 to-black p-1 rounded-2xl">
               <div className="bg-white rounded-xl p-5">
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <Zap className="text-red-600" size={24} fill="red" />
-                  <h4 className="text-xl md:text-2xl text-[#0B0B0F] uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
+                <div className="text-center mb-4">
+                  <Zap className="inline-block text-red-600 mb-2" size={24} fill="red" />
+                  <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
                     ESPORTS LOUNGE
                   </h4>
                 </div>
                 
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b-2 border-red-600">
-                        <th className="text-left p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Duration</th>
-                        <th className="text-center p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Regular Price</th>
-                        {/* <th className="text-center p-3 text-red-600 font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Launch Price</th> */}
-                        <th className="text-left p-3 text-[#0B0B0F] font-bold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>Bundle Details</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {launchPromoEsports.map((row, idx) => (
-                        <tr key={idx} className="border-b border-gray-200">
-                          <td className="p-3 text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</td>
-                          <td className="p-3 text-center text-black font-black text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</td>
-                          {/* <td className="p-3 text-center text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</td> */}
-                          <td className="p-3 text-[#666666] text-md" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle || '-'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Chill Lounge Launch Pricing - Two Sections */}
-          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-            {/* 3rd April */}
-            <div className="bg-gradient-to-r from-cyan-400 to-blue-600 p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-5">
-                <div className="text-center mb-4">
-                  <Snowflake className="inline-block text-cyan-600 mb-2" size={24} />
-                  <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase mb-1" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
-                    CHILL LOUNGE
-                  </h4>
-                  {/* <p className="text-cyan-600 text-sm font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>17th April Only</p> */}
-                </div>
-                
                 <div className="space-y-3">
-                  {launchPromoChill13.map((row, idx) => (
+                  {launchPromoEsports.map((row, idx) => (
                     <div key={idx} className="flex justify-between items-center pb-2 border-b border-gray-200">
                       <div>
                         <p className="text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</p>
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
-                        <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
+                        <p className="text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
                       </div>
                     </div>
                   ))}
@@ -423,8 +384,7 @@ export function Pricing() {
                         {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
                       </div>
                       <div className="text-right">
-                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
-                        <p className="text-blue-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.promo + '/person'}</p>
+                        <p className="text-blue-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular + '/person'}</p>
                       </div>
                     </div>
                   ))}
@@ -436,104 +396,12 @@ export function Pricing() {
           {/* Launch Promo Benefits */}
           <div className="mt-6 text-center">
             <div className="inline-flex flex-wrap justify-center gap-3">
-              <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                30% OFF Racing Sim
-              </span>
-              <span className="bg-cyan-100 text-cyan-600 px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                30% OFF PS5 Hours
-              </span>
-              <span className="bg-orange-100 text-[#FF4D00] px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                10% OFF Food Menu
-              </span>
+             
             </div>
           </div>
         </div>
 
-        {/* DIRECT WALK-IN OFFERS */}
-        <div className="mb-16 md:mb-20">
-          <div className="text-center mb-8">
-            <h3
-              className="text-2xl md:text-3xl text-[#0B0B0F] uppercase mb-2"
-              style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}
-            >
-              DIRECT WALK-IN <span className="text-[#FF4D00]">OFFERS</span>
-            </h3>
-            <p className="text-[#666666] text-sm" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}>
-              Special pricing for immediate bookings (35% OFF PC Gamepasses) — <strong className="font-bold">Valid 17/04/26</strong>
-            </p>
-          </div>
-
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
-            {/* Esports Lounge Walk-In */}
-            <div className="bg-gradient-to-r from-red-600 to-black p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-6">
-                <div className="text-center mb-4">
-                  <Zap className="inline-block text-red-600 mb-2" size={24} fill="red" />
-                  <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
-                    ESPORTS LOUNGE
-                  </h4>
-                </div>
-                
-                <div className="space-y-3">
-                  {walkInEsports.map((row, idx) => (
-                    <div key={idx} className="flex justify-between items-center pb-2 border-b border-gray-200">
-                      <div>
-                        <p className="text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</p>
-                        {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
-                      </div>
-                      <div className="text-right">
-                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
-                        <p className="text-red-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.walkIn}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Chill Lounge Walk-In */}
-            <div className="bg-gradient-to-r from-cyan-400 to-blue-600 p-1 rounded-2xl">
-              <div className="bg-white rounded-xl p-6">
-                <div className="text-center mb-4">
-                  <Snowflake className="inline-block text-cyan-600 mb-2" size={24} />
-                  <h4 className="text-lg md:text-xl text-[#0B0B0F] uppercase" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800 }}>
-                    CHILL LOUNGE
-                  </h4>
-                </div>
-                
-                <div className="space-y-3">
-                  {walkInChill.map((row, idx) => (
-                    <div key={idx} className="flex justify-between items-center pb-2 border-b border-gray-200">
-                      <div>
-                        <p className="text-[#0B0B0F] font-semibold text-sm" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.duration}</p>
-                        {row.bundle && <p className="text-[#666666] text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.bundle}</p>}
-                      </div>
-                      <div className="text-right">
-                        <p className="text-black line-through text-xs" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.regular}</p>
-                        <p className="text-cyan-600 font-bold text-lg" style={{ fontFamily: 'Montserrat, sans-serif' }}>{row.walkIn}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Walk-In Benefits */}
-          <div className="mt-6 text-center">
-            <div className="inline-flex flex-wrap justify-center gap-3">
-              <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                20% OFF Racing Sim
-              </span>
-              <span className="bg-cyan-100 text-cyan-600 px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                20% OFF PS5 Hours
-              </span>
-              <span className="bg-orange-100 text-[#FF4D00] px-4 py-2 rounded-full text-xs font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                10% OFF Food Menu
-              </span>
-            </div>
-          </div>
-        </div>
+       
 
         {/* CHILL LOUNGE SPECIAL PACKAGES */}
 
